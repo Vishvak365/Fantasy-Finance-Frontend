@@ -5,13 +5,15 @@ import "firebase/auth";
 export default function Home() {
   return (
     <div>
-      <img src={firebase.auth().currentUser.photoURL} />
+      <img src={firebase.auth().currentUser.photoURL} alt="user photo" />
       <h1>{firebase.auth().currentUser.displayName}</h1>
       <button
         onClick={() => {
           firebase.auth().signOut();
         }}
-      > Sign Out</button>
+      >
+        Sign Out
+      </button>
     </div>
   );
 }
