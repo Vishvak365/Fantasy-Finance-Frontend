@@ -23,13 +23,6 @@ export default function Login() {
         className="gsignin"
         alt="Google Sign In Button"
       />
-      <button
-        onClick={() => {
-          console.log(firebase.auth().currentUser);
-        }}
-      >
-        Current User
-      </button>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import "firebase/auth";
 export default function Home() {
   return (
     <div>
-      <img src={firebase.auth().currentUser.photoURL} alt="user photo" />
+      <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
       <h1>{firebase.auth().currentUser.displayName}</h1>
       <button
         onClick={() => {
