@@ -20,6 +20,8 @@ function App() {
         <Home />
       </div>
     );
+  } else if (error) {
+    return <div>{error}</div>;
   } else {
     return (
       <div className="App">
