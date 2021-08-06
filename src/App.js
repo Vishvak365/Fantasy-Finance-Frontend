@@ -1,10 +1,9 @@
+import "./util/Firebase";
 import "./App.css";
 import Login from "./pages/Login";
 import firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
-
-require("./util/Firebase");
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
