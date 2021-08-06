@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import client from "../util/Client";
-
+var faker = require("faker");
 export default function Home() {
   const [history, setHistory] = React.useState([]);
   React.useEffect(() => {
@@ -22,6 +22,17 @@ export default function Home() {
         }}
       >
         Sign Out
+      </button>
+      <button
+        onClick={() => {
+          client.get(
+            `/trade/makeTrade?stockName=${faker.finance.currencyCode()}&action=${
+              ["BUY", "SELL"][Math.floor(Math.random() * 2)]
+            }`
+          );
+        }}
+      >
+        Create Random Transaction
       </button>
       <div>
         {history.length !== 0
