@@ -9,7 +9,6 @@ export default function Home() {
     async function fetchData() {
       const data = await client.get("/trade/history");
       setHistory(data.data);
-      console.log(history);
     }
     fetchData();
   }, []);
@@ -25,7 +24,7 @@ export default function Home() {
         Sign Out
       </button>
       <div>
-        {history.length != 0
+        {history.length !== 0
           ? history.map((row) => {
               return (
                 <div>
