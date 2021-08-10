@@ -16,10 +16,9 @@ export default function Home() {
 
   const paperStyle = {
     padding: 10,
-    marginLeft: "20%",
-    marginRight: "20%",
-    marginTop: 10,
-    marginBottom: 10
+    width: "80%",
+    margin:'auto',
+    marginBottom:10
   }
   return (
     <div>
