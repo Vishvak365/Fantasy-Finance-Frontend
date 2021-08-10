@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import client from "../util/Client";
+import Paper from '@material-ui/core/Paper';
 var faker = require("faker");
 export default function Home() {
   const [history, setHistory] = React.useState([]);
@@ -12,6 +13,14 @@ export default function Home() {
     }
     fetchData();
   }, []);
+
+  const paperStyle = {
+    padding: 10,
+    marginLeft: "20%",
+    marginRight: "20%",
+    marginTop: 10,
+    marginBottom: 10
+  }
   return (
     <div>
       <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
@@ -26,8 +35,7 @@ export default function Home() {
       <button
         onClick={() => {
           client.get(
-            `/trade/makeTrade?stockName=${faker.finance.currencyCode()}&action=${
-              ["BUY", "SELL"][Math.floor(Math.random() * 2)]
+            `/trade/makeTrade?stockName=${faker.finance.currencyCode()}&action=${["BUY", "SELL"][Math.floor(Math.random() * 2)]
             }`
           );
         }}
@@ -37,14 +45,14 @@ export default function Home() {
       <div>
         {history.length !== 0
           ? history.map((row) => {
-              return (
-                <div>
-                  <p>
-                    {row.stock} - {row.action} - {row.executed._seconds}
-                  </p>
-                </div>
-              );
-            })
+            return (
+              <Paper style={paperStyle} elevation={3}>
+                <p>
+                  {row.stock} - {row.action} - {row.executed._seconds}
+                </p>
+              </Paper>
+            );
+          })
           : null}
       </div>
     </div>
