@@ -24,6 +24,7 @@ export default function Home() {
     <div>
       <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
       <h1>{firebase.auth().currentUser.displayName}</h1>
+      <button>Random Button</button>
       <button
         onClick={() => {
           firebase.auth().signOut();
