@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
+import UserOnBoard from "./pages/UserOnBoard"
+import { Switch, Route } from 'react-router-dom'
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -16,7 +18,12 @@ function App() {
   } else if (user) {
     return (
       <div className="App">
-        <Home />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          {/* both /roster and /roster/:number begin with /roster */}
+          <Route path="/onboard" component={UserOnBoard} />
+          {/* <Route path="/schedule" component={Schedule} /> */}
+        </Switch>
       </div>
     );
   } else if (error) {
