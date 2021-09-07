@@ -5,10 +5,13 @@ import Login from "./pages/Login";
 import firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
+import UserOnBoard from "./pages/UserOnBoard";
+import League from "./pages/League";
+import { Switch, Route } from "react-router-dom";
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
-  const [token, setToken] = React.useState()
+  const [token, setToken] = React.useState();
   if (loading) {
     return (
       <div>
@@ -16,22 +19,28 @@ function App() {
       </div>
     );
   } else if (user) {
-    user.getIdToken().then(token => {
-      setToken(token)
-    })
+    user.getIdToken().then((token) => {
+      setToken(token);
+    });
     if (token)
       return (
         <div className="App">
-          <form action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${token}`} method="POST">
+          <form
+            action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${token}`}
+            method="POST"
+          >
             <button type="submit" role="link">
               Checkout
             </button>
           </form>
-          <Home />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/onboard" component={UserOnBoard} />
+            <Route path="/league/:leagueID" component={League} />
+          </Switch>
         </div>
       );
-    else
-      return (<div></div>)
+    else return <div></div>;
   } else if (error) {
     return <div>{error}</div>;
   } else {
