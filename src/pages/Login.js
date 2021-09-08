@@ -2,16 +2,28 @@ import React from "react";
 import googleSignin from "../images/google_signin.png";
 import firebase from "firebase/app";
 import "firebase/auth";
-function googleSignInPopup() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .catch((error) => {
-      console.log(error);
-    });
-}
-export default function Login() {
+import { useHistory } from "react-router-dom";
+
+const Login = () => {
+
+  let history = useHistory();
+
+  function googleSignInPopup() {
+  
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((user) => {
+        if (user.additionalUserInfo.isNewUser === true) {
+          history.push("/onboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <div>
       <img
@@ -25,4 +37,6 @@ export default function Login() {
       />
     </div>
   );
-}
+};
+
+export default Login;
