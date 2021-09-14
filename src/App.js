@@ -25,17 +25,17 @@ function App() {
     if (token)
       return (
         <div className="App">
-          <form
-            action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${token}`}
-            method="POST"
-          >
-            <button type="submit" role="link">
-              Checkout
-            </button>
-          </form>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/onboard" component={UserOnBoard} />
+            <Route
+              exact
+              path="/"
+              render={(props) => <Home {...props} token={token} />}
+            />
+            <Route
+              exact
+              path="/onboard"
+              render={(props) => <UserOnBoard {...props} token={token} />}
+            />
             <Route path="/league/:leagueID" component={League} />
           </Switch>
         </div>
