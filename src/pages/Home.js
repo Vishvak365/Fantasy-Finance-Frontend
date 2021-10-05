@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import client from "../util/Client";
 import Paper from "@material-ui/core/Paper";
-import {blueGrey, deepOrange, deepPurple} from "@material-ui/core/colors";
+//import {blueGrey, deepOrange, deepPurple} from "@material-ui/core/colors";
 var faker = require("faker");
 export default function Home(props) {
   const [history, setHistory] = React.useState([]);
