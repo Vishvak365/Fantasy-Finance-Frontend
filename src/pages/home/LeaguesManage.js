@@ -5,6 +5,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import history from "../../history";
+import { Modal } from "@mui/material";
+import CreateLeagueModal from "./CreateLeagueModal";
+import JoinLeagueModal from "./JoinLeagueModal";
 
 const exampleLeagues = [
   {
@@ -39,6 +42,13 @@ function LeagueInfo(props) {
   );
 }
 export default function LeaguesManage(props) {
+  const handleJoinLeagueOpen = () => setJoinLeague(true);
+  const handleJoinLeagueClose = () => setJoinLeague(false);
+  const [joinLeague, setJoinLeague] = React.useState(false);
+
+  const handleCreateLeagueOpen = () => setCreateLeague(true);
+  const handleCreateLeagueClose = () => setCreateLeague(false);
+  const [createLeague, setCreateLeague] = React.useState(false);
   return (
     <Paper>
       <h3>Leagues</h3>
@@ -50,12 +60,26 @@ export default function LeaguesManage(props) {
           marginLeft: 3,
         }}
       >
-        <Button variant="contained" style={{ marginRight: 10 }}>
+        <Button
+          variant="contained"
+          style={{ marginRight: 10 }}
+          onClick={handleJoinLeagueOpen}
+        >
           Join
         </Button>
-        <Button color="success" variant="contained">
+        <Button
+          color="success"
+          variant="contained"
+          onClick={handleCreateLeagueOpen}
+        >
           Create
         </Button>
+        <Modal open={joinLeague} onClose={handleJoinLeagueClose}>
+          <JoinLeagueModal />
+        </Modal>
+        <Modal open={createLeague} onClose={handleCreateLeagueClose}>
+          <CreateLeagueModal />
+        </Modal>
       </Box>
       {exampleLeagues.map((data) => {
         return <LeagueInfo league={data} />;
