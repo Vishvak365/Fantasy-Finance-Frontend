@@ -9,6 +9,7 @@ import UserOnBoard from "./pages/UserOnBoard";
 import League from "./pages/League";
 import { Router, Switch, Route } from "react-router-dom";
 import history from "./history";
+import LeagueTrade from "./pages/LeagueTrade";
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -32,7 +33,12 @@ function App() {
                 <Home token={token} />
               </Route>
               <Route exact path="/onboard" component={UserOnBoard} />
-              <Route path="/league/:leagueID" component={League} />
+              <Route exact path="/league/:leagueID" component={League} />
+              <Route
+                exact
+                path="/league/:leagueID/trade/:stock"
+                component={LeagueTrade}
+              />
             </Switch>
           </Router>
         </div>
