@@ -37,14 +37,15 @@ export default function Home(props) {
         <button type="submit" role="link">
           Purchase Premium
         </button>
-        <button
-          onClick={() => {
-            firebase.auth().signOut();
-          }}
-        >
-          Sign Out
-        </button>
       </form>
+      <button
+        onClick={() => {
+          firebase.auth().signOut();
+        }}
+      >
+        Sign Out
+      </button>
+      <br/>
       <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
       <h1>{firebase.auth().currentUser.displayName}</h1>
       <div style={{ width: "100%" }}>
