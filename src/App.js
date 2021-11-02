@@ -7,7 +7,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
 import UserOnBoard from "./pages/UserOnBoard";
 import League from "./pages/League";
-import { Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import history from "./history";
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -25,19 +26,15 @@ function App() {
     if (token)
       return (
         <div className="App">
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={(props) => <Home {...props} token={token} />}
-            />
-            <Route
-              exact
-              path="/onboard"
-              render={(props) => <UserOnBoard {...props} token={token} />}
-            />
-            <Route path="/league/:leagueID" component={League} />
-          </Switch>
+          <Router history={history}>
+            <Switch>
+              <Route exact path="/">
+                <Home token={token} />
+              </Route>
+              <Route exact path="/onboard" component={UserOnBoard} />
+              <Route path="/league/:leagueID" component={League} />
+            </Switch>
+          </Router>
         </div>
       );
     else return <div></div>;

@@ -2,14 +2,22 @@ import React from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import client from "../util/Client";
-import Paper from "@material-ui/core/Paper";
-var faker = require("faker");
+import LeaguesManage from "./home/LeaguesManage";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import LeagueHistory from "./home/LeagueHistory";
 export default function Home(props) {
   const [history, setHistory] = React.useState([]);
+  const [sampleTest, setSampleTest] = React.useState("");
+
   React.useEffect(() => {
+    console.log(props);
     async function fetchData() {
       const data = await client.get("/trade/history");
       setHistory(data.data);
+      const sampleData = await client.get("/sample/test");
+      setSampleTest(sampleData.data);
     }
     fetchData();
   }, []);
@@ -27,12 +35,9 @@ export default function Home(props) {
         method="POST"
       >
         <button type="submit" role="link">
-          Checkout
+          Purchase Premium
         </button>
       </form>
-
-      <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
-      <h1>{firebase.auth().currentUser.displayName}</h1>
       <button
         onClick={() => {
           firebase.auth().signOut();
@@ -40,29 +45,21 @@ export default function Home(props) {
       >
         Sign Out
       </button>
-      <button
-        onClick={() => {
-          client.get(
-            `/trade/makeTrade?stockName=${faker.finance.currencyCode()}&action=${
-              ["BUY", "SELL"][Math.floor(Math.random() * 2)]
-            }`
-          );
-        }}
-      >
-        Create Random Transaction
-      </button>
-      <div>
-        {history.length !== 0
-          ? history.map((row) => {
-              return (
-                <Paper style={paperStyle} elevation={3}>
-                  <p>
-                    {row.stock} - {row.action} - {row.executed._seconds}
-                  </p>
-                </Paper>
-              );
-            })
-          : null}
+      <br/>
+      <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
+      <h1>{firebase.auth().currentUser.displayName}</h1>
+      <div style={{ width: "100%" }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 2fr)",
+            p: 5,
+            gap: 4,
+          }}
+        >
+          <LeagueHistory />
+          <LeaguesManage />
+        </Box>
       </div>
     </div>
   );
