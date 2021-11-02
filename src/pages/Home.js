@@ -6,19 +6,6 @@ import LeaguesManage from "./home/LeaguesManage";
 import Box from "@mui/material/Box";
 import LeagueHistory from "./home/LeagueHistory";
 export default function Home(props) {
-  // const [history, setHistory] = React.useState([]);
-  // const [sampleTest, setSampleTest] = React.useState("");
-
-  // React.useEffect(() => {
-  //   console.log(props);
-  //   async function fetchData() {
-  //     const data = await client.get("/trade/history");
-  //     setHistory(data.data);
-  //     const sampleData = await client.get("/sample/test");
-  //     setSampleTest(sampleData.data);
-  //   }
-  //   fetchData();
-  // }, []);
 
   const paperStyle = {
     padding: 10,
