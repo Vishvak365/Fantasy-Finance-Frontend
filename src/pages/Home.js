@@ -6,7 +6,6 @@ import LeaguesManage from "./home/LeaguesManage";
 import Box from "@mui/material/Box";
 import LeagueHistory from "./home/LeagueHistory";
 export default function Home(props) {
-
   const paperStyle = {
     padding: 10,
     width: "80%",
@@ -17,6 +16,7 @@ export default function Home(props) {
     <div>
       <form
         action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
+        // action={`http://localhost:8080/checkout?token=${props.token}`}
         method="POST"
       >
         <button type="submit" role="link">
@@ -30,7 +30,7 @@ export default function Home(props) {
       >
         Sign Out
       </button>
-      <br/>
+      <br />
       <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
       <h1>{firebase.auth().currentUser.displayName}</h1>
       <div style={{ width: "100%" }}>
