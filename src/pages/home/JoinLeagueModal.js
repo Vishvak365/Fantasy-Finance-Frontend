@@ -7,7 +7,6 @@ import MuiAlert from "@mui/material/Alert";
 //setup react component return function
 export default function JoinLeagueModal(props) {
   function sendJoinLeagueRequest(leagueID) {
-    //make api call to backend using client object
     client
       .post("/leagues/addUser", { leagueID: leagueID })
       .then((res) => {
@@ -15,10 +14,8 @@ export default function JoinLeagueModal(props) {
         window.location.reload();
       })
       .catch((err) => {
-        console.log("error joining league");
-        setErrorMessage("League doesn't exist or user is already in league");
+        setErrorMessage(err.response.data.message);
         setErrorModal(true);
-        console.log(err);
       });
   }
   const [errorModal, setErrorModal] = React.useState(false);
