@@ -1,9 +1,36 @@
+import React from "react";
+import client from "../../util/Client";
 import { Button, Paper, TextField } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 //setup react component return function
 export default function JoinLeagueModal(props) {
+  function sendJoinLeagueRequest(leagueID) {
+    //make api call to backend using client object
+    client
+      .post("/leagues/addUser", { leagueID: leagueID })
+      .then((res) => {
+        //refresh page
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log("error joining league");
+        setErrorMessage("League doesn't exist or user is already in league");
+        setErrorModal(true);
+        console.log(err);
+      });
+  }
+  const [errorModal, setErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [leagueName, setLeagueName] = React.useState("");
   return (
     <div>
+      <Snackbar open={errorModal} autoHideDuration={6000}>
+        <MuiAlert severity="error" sx={{ width: "100%" }}>
+          {errorMessage}
+        </MuiAlert>
+      </Snackbar>
       <Paper
         style={{
           position: "absolute",
@@ -21,11 +48,21 @@ export default function JoinLeagueModal(props) {
         }}
       >
         <h2>Join League</h2>
-        <TextField id="outlined-required" label="LeagueID" type="search" />
+        <TextField
+          id="outlined-required"
+          label="LeagueID"
+          type="search"
+          onChange={(data) => {
+            setLeagueName(data.target.value);
+          }}
+        />
         <br />
         <Button
           variant="contained"
           style={{ padding: 10, margin: 10, backgroundColor: "#37dd40" }}
+          onClick={() => {
+            sendJoinLeagueRequest(leagueName);
+          }}
         >
           Join
         </Button>

@@ -23,6 +23,8 @@ function App() {
   } else if (user) {
     user.getIdToken().then((token) => {
       setToken(token);
+      //This print statement is to make it easier to see the token
+      console.log("USER API TOKEN", token);
     });
     if (token)
       return (
