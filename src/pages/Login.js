@@ -1,5 +1,6 @@
 import React from "react";
 import googleSignin from "../images/google_signin.png";
+import companyLogo from "../images/FF_Logo.png"
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -56,39 +57,54 @@ const Login = (props) => {
   const loginStyle = {
     borderRadius: "25px",
     padding: 20,
+    backgroundColor: "pink",
     height: "40vh",
     width: 380,
     margin: "90px auto",
   };
+  // add background color   backgroundColor: "#3f51b5",
+    
+
 
 
   return (
-    <div>
-      <Grid>
-        <Paper elevation={10} style={loginStyle}>
-          <h1>Fantasy Finance</h1>
-          <Grid align="center">
-            <h2>Sign in</h2>
+    // add a button to sign in with google
+  
+    <Container maxWidth="sm">
+      <Paper style={loginStyle} elevation={10}>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <Avatar
+              style={{  
+                width: "200px",
+                height: "100px",
+                margin: "0 auto",
+                marginBottom: "20px",
+              }}
+              src={companyLogo}
+            />
+          </Grid>
+          <Grid item>
+            
+          </Grid>
+          <Grid item>
             <Button
-              className="gsignin"
-              onClick={googleSignInPopup}
-              variant="contained"
+            opacity="0.6"
+              elevation={10}
               style={googleStyle}
+              onClick={googleSignInPopup}
             >
-              <Avatar src={googleLogo} />
-              <Typography
-                component="p"
-                variant="h6"
-                flexGrow="1"
-                textAlign="center"
-              >
-                Sign in with Google
-              </Typography>
+               <Avatar
+                src={googleLogo}
+            />
+            <Typography variant="h6" align="center">
+              Sign in with Google
+            </Typography>
             </Button>
           </Grid>
-        </Paper>
-      </Grid>
-    </div>
+        </Grid>
+      </Paper>
+    </Container>
   );
 };
 
