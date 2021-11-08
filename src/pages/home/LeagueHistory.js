@@ -1,8 +1,6 @@
 import React from "react";
 import {
   styled,
-  Grid,
-  Box,
   Paper,
   DialogActions,
   Button,
