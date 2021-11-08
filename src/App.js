@@ -7,7 +7,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
 import UserOnBoard from "./pages/UserOnBoard";
 import League from "./pages/League";
-import { Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import history from "./history";
+import LeagueTrade from "./pages/LeagueTrade";
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -21,23 +23,26 @@ function App() {
   } else if (user) {
     user.getIdToken().then((token) => {
       setToken(token);
+      //This print statement is to make it easier to see the token
+      console.log("USER API TOKEN", token);
     });
     if (token)
       return (
         <div className="App">
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={(props) => <Home {...props} token={token} />}
-            />
-            <Route
-              exact
-              path="/onboard"
-              render={(props) => <UserOnBoard {...props} token={token} />}
-            />
-            <Route path="/league/:leagueID" component={League} />
-          </Switch>
+          <Router history={history}>
+            <Switch>
+              <Route exact path="/">
+                <Home token={token} />
+              </Route>
+              <Route exact path="/onboard" component={UserOnBoard} />
+              <Route exact path="/league/:leagueID" component={League} />
+              <Route
+                exact
+                path="/league/:leagueID/trade/:stock"
+                component={LeagueTrade}
+              />
+            </Switch>
+          </Router>
         </div>
       );
     else return <div></div>;
