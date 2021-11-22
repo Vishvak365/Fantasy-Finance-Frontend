@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  styled,
-  Grid,
-  Paper,
-  Card,
-  DialogActions,
-  Button,
-  Dialog,
-  DialogContentText,
-  DialogTitle,
-  DialogContent,
-  Typography,
-} from "@mui/material";
+import { styled, Grid, Paper, Card, Typography } from "@mui/material";
 import CardContent from "@material-ui/core/CardContent";
 import firebase from "firebase/app";
 import client from "../../util/Client";
@@ -24,15 +12,26 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const LeagueHistoryCard = (props) => {
   //create cards for each stock
-  const date = new Date(props.stock.executed._seconds * 1000);
+  const date = new Date(props.stock.date._seconds * 1000);
+
+  const HistoryCard = styled(Card)(({ theme }) => ({
+    margin: theme.spacing(1),
+    backgroundColor: props.stock.color,
+    color: "white",
+  }));
+
+  //   margin: "10px",
+  //   backgroundColor: props.stock.color,
+
+  // }
   const card = (
-    <Card style={{ margin: "10px", backgroundColor: "yellow" }}>
+    <HistoryCard>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.stock.leagueName}
         </Typography>
         <h4>
-          Stock: {props.stock.stockName} Quantity: {props.stock.quantity}
+          Stock: {props.stock.stock} Quantity: {props.stock.quantity}
         </h4>
         <h4></h4>
         <h4>
@@ -42,7 +41,7 @@ const LeagueHistoryCard = (props) => {
           Executed: {date.toDateString()}, {date.toLocaleTimeString()}
         </h4>
       </CardContent>
-    </Card>
+    </HistoryCard>
   );
   return card;
 };
@@ -84,7 +83,11 @@ const LeagueHistory = () => {
             ))}
           </Grid>
         ) : (
-          <div>No history</div>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              No History
+            </Typography>
+          </CardContent>
         )}
       </Paper>
     </Grid>
@@ -92,49 +95,3 @@ const LeagueHistory = () => {
 };
 
 export default LeagueHistory;
-
-// const LeagueHistoryPop = (props) => {
-//   const [open, setOpen] = React.useState(false);
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-//   // create a card for each stock
-
-//   return (
-//     <div>
-//       <Button
-//         variant="contained"
-//         color={props.stock.action === "buy" ? "primary" : "warning"}
-//         onClick={handleClickOpen}
-//       >
-//         {props.stock.stockName} {props.stock.action} {props.stock.leagueName}
-//       </Button>
-//       <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         aria-labelledby="form-dialog-title"
-//       >
-//         <DialogTitle id="form-dialog-title">History</DialogTitle>
-//         <DialogContent>
-//           <DialogContentText>
-//             <div>
-//               <Item>League: {props.stock.leagueName}</Item>
-//               <Item>Stock: {props.stock.stockName}</Item>
-//               <Item>Quantity: {props.stock.quantity}</Item>
-//               <Item>Price: {props.stock.price}</Item>
-//               <Item>Action: {props.stock.action}</Item>
-//             </div>
-//           </DialogContentText>
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleClose} color="primary">
-//             Close
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// };
