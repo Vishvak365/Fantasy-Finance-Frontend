@@ -19,7 +19,7 @@ function UserOnBoard(props) {
   const HeaderStyle = {
     borderRadius: "25px",
     padding: 0,
-    height: "8vh",
+    height: "5vh",
     width: 500,
     margin: "30px auto",
     backgroundColor: "#3f51b5",
@@ -38,9 +38,9 @@ function UserOnBoard(props) {
 
   const PremiumStyle = {
     borderRadius: "25px",
-    padding: 10,
-    height: "4vh",
-    width: 100,
+    padding:10,
+    height: "3.5vh",
+    width: 175,
     margin: "25px auto",
   };
 
@@ -54,29 +54,32 @@ function UserOnBoard(props) {
           <Grid align="center"></Grid>
           </Paper>
           <Paper elevation={10} style={AboutStyle}>
-          <p>Fantasy Finance allows your to join fantasy league where you can buy and sell  stocks</p>
+          <p>Fantasy Finance is a competitive paper trading application. Fantasy Finance allows you to join fantasy leagues where you can compete against your friends or other users by buying and selling stocks. This platform utilizes real financial market data to allow users to build their paper portfolio and compete inorder to create the best return on investment.</p>
+          <Paper elevation={10} style={PremiumStyle}>
+          <Button onClick={() => history.push("/")}>Start</Button>
+          </Paper>
           <form
           action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
           method="POST"
           >
           <p>You are can join the preimum account for $12</p>
           <Paper elevation={10} style={PremiumStyle}>
-          <button type="submit" role="link">
+          <Button type="submit" role="link">
             Join Premium
-          </button>
+          </Button>
           </Paper>
           </form>
-          <Paper elevation={10} style={PremiumStyle}>
-          <button onClick={() => history.push("/")}>Start</button>
-          </Paper>
         </Paper>
+        {/* <Paper variant="outlined">
+          <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?cs=srgb&dl=pexels-pixabay-210607.jpg&fm=jpg"/>
+        </Paper> */}
       </Grid>
       
       
       
       
       
-      <h1>Welcome to Fantasy Finance</h1>
+      {/* <h1>Welcome to Fantasy Finance</h1>
       <body>
         <p>Fantasy Finance allows your to join fantasy league where you can buy and sell  stocks</p>
         <form
@@ -89,7 +92,7 @@ function UserOnBoard(props) {
           </button>
         </form>
         <button onClick={() => history.push("/")}>Start</button>
-      </body>
+      </body> */}
     </div>
   );
 }
