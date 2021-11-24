@@ -14,25 +14,6 @@ export default function Home(props) {
   };
   return (
     <div>
-      <form
-        action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
-        // action={`http://localhost:8080/checkout?token=${props.token}`}
-        method="POST"
-      >
-        <button type="submit" role="link">
-          Purchase Premium
-        </button>
-      </form>
-      <button
-        onClick={() => {
-          firebase.auth().signOut();
-        }}
-      >
-        Sign Out
-      </button>
-      <br />
-      <img src={firebase.auth().currentUser.photoURL} alt="User Profile" />
-      <h1>{firebase.auth().currentUser.displayName}</h1>
       <div style={{ width: "100%" }}>
         <Box
           sx={{
