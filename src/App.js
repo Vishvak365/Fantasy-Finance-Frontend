@@ -5,13 +5,13 @@ import Login from "./pages/Login";
 import firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import UserOnBoard from "./pages/UserOnBoard";
 import League from "./pages/League";
 import { Router, Switch, Route } from "react-router-dom";
 import history from "./history";
 import LeagueTrade from "./pages/LeagueTrade";
-import logo from "./images/FF_LOGO.png";
-
+import Sidebar from "./pages/Sidebar";
 import Grid from "@mui/material/Grid";
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -34,57 +34,12 @@ function App() {
           <Router history={history}>
             <Grid container>
               <Grid item xs={2}>
-                <div
-                  style={{
-                    height: "100vh",
-                    boxShadow: "24px 7px 46px -25px rgba(0,0,0,0.13)",
-                  }}
-                >
-                  <img
-                    alt="logo"
-                    style={{
-                      width: "100%",
-                      marginTop: "10%",
-                      textAlign: "center",
-                    }}
-                    src={logo}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#F4F4FC",
-                      height: 40,
-                      color: "#5866d3",
-                    }}
-                  >
-                    <b>Home</b>
-                  </div>
-                  <form
-                    action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${token}`}
-                    // action={`http://localhost:8080/checkout?token=${props.token}`}
-                    method="POST"
-                  >
-                    <button type="submit" role="link">
-                      Purchase Premium
-                    </button>
-                  </form>
-                  <button
-                    onClick={() => {
-                      firebase.auth().signOut();
-                    }}
-                  >
-                    Sign Out
-                  </button>
-                </div>
+                <Sidebar token={token} />
               </Grid>
               <Grid item xs={10}>
                 <div
                   style={{
                     backgroundColor: "#5866d3",
-                    // textAlign: "right",
                     alignItems: "center",
                     height: 50,
                     display: "flex",
@@ -105,6 +60,7 @@ function App() {
                   </Route>
                   <Route exact path="/onboard" component={UserOnBoard} />
                   <Route exact path="/league/:leagueID" component={League} />
+                  <Route exact path="/about" component={About} />
                   <Route
                     exact
                     path="/league/:leagueID/trade/:stock"
