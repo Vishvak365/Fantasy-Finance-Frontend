@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import history from "../history";
 import { useLocation } from "react-router-dom";
 
-import logo from "../images/FF_LOGO.png";
+import logo from "../images/FF_Logo.png";
 export default function Sidebar(props) {
   const Row = ({ name, link }) => {
     const location = useLocation();
