@@ -2,17 +2,68 @@ import React from "react";
 import { useParams } from "react-router";
 import TradingViewWidget, { Themes, BarStyles } from "react-tradingview-widget";
 import Grid from "@mui/material/Grid";
-import { Button, Paper } from "@mui/material";
+import { Button, Paper, Autocomplete, TextField } from "@mui/material";
+import { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import client from "../util/Client";
 
-export default function LeagueTrade() {
+function LeagueTrade(props) {
+  const [shareQuantity, setShareQuantity] = useState(1);
+  const [errorModal, setErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
   const { leagueID } = useParams();
+  const stock = props.history.location.state.stock;
+
+  const buyStock = () => {
+    client
+      .post(`league/trade/buy_stock`, {
+        stockName: stock.symbol,
+        quantity: shareQuantity,
+        leagueId: leagueID,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message);
+        setErrorModal(true);
+      });
+  };
+
+  const sellStock = () => {
+    client
+      .post(`league/trade/sell_stock`, {
+        stockName: stock.symbol,
+        quantity: shareQuantity,
+        leagueId: leagueID,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message);
+        setErrorModal(true);
+      });
+  };
+
   return (
     <div>
       League TRADE - League ID = {leagueID}
+      <Snackbar open={errorModal} autoHideDuration={6000}>
+        <MuiAlert severity="error" sx={{ width: "100%" }}>
+          {errorMessage}
+        </MuiAlert>
+      </Snackbar>
       <Grid container spacing={2} style={{ padding: 40, borderRadius: 10 }}>
+        {console.log(stock)}
         <Grid item xs={8} style={{ height: "90vh", paddingTop: 20 }}>
           <TradingViewWidget
-            symbol="NASDAQ:AAPL"
+            symbol={
+              stock.symbol.length >= 4
+                ? `NASDAQ:${stock.symbol}`
+                : `NYSE:${stock.symbol}`
+            }
             theme={Themes.DARK}
             allow_symbol_change={false}
             enable_publishing={false}
@@ -25,10 +76,28 @@ export default function LeagueTrade() {
         <Grid item xs={4}>
           <Paper>
             <h1 style={{ height: "40vh" }}>Trade</h1>
-            <Button variant="contained" style={{ backgroundColor: "green" }}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-number"
+                label="Quantity"
+                type="number"
+                variant="outlined"
+                value={shareQuantity}
+                onChange={(e) => setShareQuantity(e.target.value)}
+              />
+            </Grid>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "green" }}
+              onClick={buyStock}
+            >
               Buy
             </Button>
-            <Button variant="contained" style={{ backgroundColor: "red" }}>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "red" }}
+              onClick={sellStock}
+            >
               Sell
             </Button>
           </Paper>
@@ -40,3 +109,5 @@ export default function LeagueTrade() {
     </div>
   );
 }
+
+export default LeagueTrade;
