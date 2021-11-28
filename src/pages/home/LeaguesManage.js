@@ -24,7 +24,6 @@ const exampleLeagues = [
   },
 ];
 function LeagueInfo(props) {
-  
   return (
     <div
       onClick={() => {
