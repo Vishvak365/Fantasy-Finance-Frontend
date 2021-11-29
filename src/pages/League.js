@@ -1,7 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Button, Paper, Autocomplete, TextField } from "@mui/material";
+import { Button, Grid, Paper, Autocomplete, TextField } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import client from "../util/Client";
+import { ClassNames } from "@emotion/react";
 
 const AutocompleteTicker = () => {
   const { leagueID } = useParams();
@@ -83,11 +85,52 @@ const AutocompleteTicker = () => {
 
 function League() {
   const { leagueID } = useParams();
-  return (
-    <div>
-      League page - League ID = {leagueID}
-      <AutocompleteTicker />
-    </div>
-  );
+
+  const HeaderStyle = {
+    borderRadius: "25px",
+    padding: 0,
+    height: "5vh",
+    width: 500,
+    margin: "30px auto",
+    backgroundColor: "#5866d3",
+    color: "white",
+  };
+
+  let styles = {
+    marginRight: '20px'};
+
+    const getMember = [];
+    client.post("/leagues/getMembers",{lID: "BtKo6KxS84CqWQiNNEQQ"}).then((res) => {
+      console.log(res);
+    });
+    
+
+  return(
+     <div>
+       League page - League ID = {leagueID}
+         <Grid>
+           <Paper style={HeaderStyle}>
+             <Grid>
+              <h1>Leagues</h1>
+             </Grid>
+             </Paper>
+          <Grid>
+            <Paper>
+             
+              </Paper> 
+          </Grid>  
+        <Grid padding={10} item md={12}   container direction={'row'}>
+          <Paper style={styles}>
+            {getMember}
+            <h1 style={{ height: "40vh", width:875 }}>Members</h1>
+          </Paper>
+          <Paper>
+            <h1 style={{ height: "40vh", width:850 }}>League</h1>
+            <AutocompleteTicker/>
+          </Paper>
+          </Grid>       
+      </Grid>
+       </div>
+       );
 }
 export default League;
