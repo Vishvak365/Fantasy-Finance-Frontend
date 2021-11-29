@@ -17,22 +17,34 @@ import logo from "../images/FF_Logo.png";
 function UserOnBoard(props) {
   let history = useHistory();
 
-  const HeaderStyle = {
+  const ImgStyle = {
     borderRadius: "25px",
     padding: 0,
     height: "5vh",
     width: 500,
-    margin: "30px auto",
+    margin: "100px auto",
     backgroundColor: "#3f51b5",
     color: "white",
   };
 
+
+  const HeaderStyle = {
+    borderRadius: "25px",
+    padding: 0,
+    height: "5vh",
+    width: 600,
+    margin: "150px auto",
+    //backgroundColor: "#3f51b5",
+    //color: "white",
+  };
+
+  
   const AboutStyle = {
     borderRadius: "25px",
-    padding: 10,
-    height: "35vh",
-    width: 700,
-    margin: "75px auto",
+    padding: 20,
+    height: "40vh",
+    width: 800,
+    margin: "60px auto",
     backgroundColor: "#3f51b5",
     color: "white",
   };
@@ -50,11 +62,20 @@ function UserOnBoard(props) {
   return (
     <div>
       <Grid>
-        <Paper elevation={10} style={HeaderStyle}>
+        <Grid item>
+      <img
+          alt="logo"
+          style={{
+          width: "25%",
+          marginTop: "5%",
+          textAlign: "center",
+          }}
+          src={logo}
+          />
+          </Grid>
+          <Paper elevation={10} style={AboutStyle}>
           <h1>Welcome to Fantasy Finance</h1>
           <Grid align="center"></Grid>
-          </Paper>
-          <Paper elevation={10} style={AboutStyle}>
           <p>Fantasy Finance is a competitive paper trading application. Fantasy Finance allows you to join fantasy leagues where you can compete against your friends or other users by buying and selling stocks. This platform utilizes real financial market data to allow users to build their paper portfolio and compete inorder to create the best return on investment.</p>
           <Paper elevation={10} style={PremiumStyle}>
           <Button onClick={() => history.push("/")}>Start</Button>
