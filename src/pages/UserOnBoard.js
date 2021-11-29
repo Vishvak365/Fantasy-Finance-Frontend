@@ -1,27 +1,82 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper"; 
 import { useHistory } from "react-router-dom";
+import { createTheme } from '@mui/material/styles';
+import blue from '@mui/material/colors/blue';
+import {
+  Avatar,
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  Container,
+  ThemeProvider,
+} from "@material-ui/core";
+import { ClassNames } from "@emotion/react";
+import logo from "../images/FF_Logo.png";
 
 function UserOnBoard(props) {
   let history = useHistory();
+
+  const HeaderStyle = {
+    borderRadius: "25px",
+    padding: 0,
+    height: "5vh",
+    width: 500,
+    margin: "30px auto",
+    backgroundColor: "#3f51b5",
+    color: "white",
+  };
+
+  const AboutStyle = {
+    borderRadius: "25px",
+    padding: 10,
+    height: "35vh",
+    width: 700,
+    margin: "75px auto",
+    backgroundColor: "#3f51b5",
+    color: "white",
+  };
+
+  const PremiumStyle = {
+    borderRadius: "25px",
+    padding:10,
+    height: "3.5vh",
+    width: 175,
+    margin: "25px auto",
+  };
+
+
+
   return (
     <div>
-      <h1>Welcome to Fantasy Finance</h1>
-      <body>
-        <p>Fantasy Finance allows your to join fantasy league where you can buy and sell stocks</p>
-        <form
+      <Grid>
+        <Paper elevation={10} style={HeaderStyle}>
+          <h1>Welcome to Fantasy Finance</h1>
+          <Grid align="center"></Grid>
+          </Paper>
+          <Paper elevation={10} style={AboutStyle}>
+          <p>Fantasy Finance is a competitive paper trading application. Fantasy Finance allows you to join fantasy leagues where you can compete against your friends or other users by buying and selling stocks. This platform utilizes real financial market data to allow users to build their paper portfolio and compete inorder to create the best return on investment.</p>
+          <Paper elevation={10} style={PremiumStyle}>
+          <Button onClick={() => history.push("/")}>Start</Button>
+          </Paper>
+          <form
           action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
           method="POST"
-        >
-          You are can join the preimum account for $12
-          <button type="submit" role="link">
+          >
+          <p>You are can join the preimum account for $12</p>
+          <Paper elevation={10} style={PremiumStyle}>
+          <Button type="submit" role="link">
             Join Premium
-          </button>
-        </form>
-        <button onClick={() => history.push("/")}>Start</button>
-      </body>
+          </Button>
+          </Paper>
+          </form>
+        </Paper>
+        {/* <Paper variant="outlined">
+          <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?cs=srgb&dl=pexels-pixabay-210607.jpg&fm=jpg"/>
+        </Paper> */}
+      </Grid>
     </div>
   );
 }
 export default UserOnBoard;
+
