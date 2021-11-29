@@ -53,7 +53,7 @@ function LeagueTrade(props) {
 
   return (
     <div>
-      League TRADE - League ID = {leagueID}
+      {/* League TRADE - League ID = {leagueID} */}
       <Snackbar open={errorModal} autoHideDuration={6000}>
         <MuiAlert severity="error" sx={{ width: "100%" }}>
           {errorMessage}

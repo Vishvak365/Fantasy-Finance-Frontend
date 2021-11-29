@@ -117,7 +117,7 @@ function League() {
 
   return(
      <div>
-       League page - League ID = {leagueID}
+       {/* League page - League ID = {leagueID} */}
          <Grid>
            <Paper style={HeaderStyle}>
              <Grid>
