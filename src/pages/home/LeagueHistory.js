@@ -3,6 +3,8 @@ import {
   styled,
   Paper,
   DialogActions,
+  Card,
+  Typography,
   Button,
   Dialog,
   DialogContentText,
@@ -10,6 +12,8 @@ import {
   DialogContent,
 } from "@mui/material";
 import firebase from "firebase/app";
+import client from "../../util/Client";
+import CardContent from "@material-ui/core/CardContent";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -18,6 +22,36 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
+const LeagueHistoryCard = (props) => {
+  //create cards for each stock
+  const date = new Date(props.stock.date._seconds * 1000);
+
+  const HistoryCard = styled(Card)(({ theme }) => ({
+    margin: theme.spacing(1),
+    backgroundColor: "#5866d3",
+    color: "white",
+  }));
+
+  const card = (
+    <HistoryCard>
+      <CardContent>
+        <Typography gutterBottom variant="h6" component="div">
+          {props.stock.leagueName}
+        </Typography>
+        <h4>
+          Stock: {props.stock.stock} Quantity: {props.stock.quantity}
+        </h4>
+        <h4>
+          Action: {props.stock.action.toUpperCase()}   Price: ${props.stock.price}
+        </h4>
+        <h4>
+          Executed: {date.toDateString()}, {date.toLocaleTimeString()}
+        </h4>
+      </CardContent>
+    </HistoryCard>
+  );
+  return card;
+};
 const LeagueHistoryPop = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -71,32 +105,20 @@ const LeagueHistory = () => {
 
   React.useEffect(() => {
     const getHistory = [];
-    const db = firebase.firestore();
-    const history = db.collection("users").
-    doc(firebase.auth().
-    currentUser.uid).collection("history").onSnapshot((querySnapshot) => {
-      if(!querySnapshot.exists){
-      querySnapshot.forEach((doc) => {  
-        getHistory.push({
-          ...doc.data(),
-          key: doc.id,
+    const userhistory = client.get("/leagues/getUserHistory");
+    try {
+      userhistory.then((res) => {
+        res.data.forEach((stock) => {
+          console.log(stock);
+          getHistory.push(stock);
         });
-        console.log(doc.data());
+        setHistory(getHistory);
+        setLoading(false);
       });
-      setHistory(getHistory);
-      setLoading(false);
+    } catch (error) {
+      setError(error);
     }
-    else{
-      console.log("no data");
-    }
-    });
-    return () => history();
   }, [loading]);
-
-  // if(loading) {
-  //   return <div>Loading...</div>;
-
-  // }
   
   return (
       <Paper>
@@ -108,7 +130,7 @@ const LeagueHistory = () => {
       ) : (
       history.length > 0 ? (
         history.map((stock) => (
-          <LeagueHistoryPop stock={stock} />
+          <LeagueHistoryCard stock={stock} />
         ))
         ) : (
           <div>No history</div>
