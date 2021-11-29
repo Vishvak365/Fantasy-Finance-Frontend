@@ -47,6 +47,10 @@ function LeagueTrade(props) {
       });
   };
 
+  const tradeStyle = {
+    height: "40vh",
+  }
+
   return (
     <div>
       League TRADE - League ID = {leagueID}
@@ -74,8 +78,8 @@ function LeagueTrade(props) {
           />
         </Grid>
         <Grid item xs={4}>
-          <Paper>
-            <h1 style={{ height: "40vh" }}>Trade</h1>
+          <Paper style={tradeStyle}>
+            <h1 style={{ height: "5vh" }}>Trade</h1>
             <Grid item xs={12}>
               <TextField
                 id="outlined-number"
@@ -101,9 +105,9 @@ function LeagueTrade(props) {
               Sell
             </Button>
           </Paper>
-          <Paper>
+          {/* <Paper>
             <h1 style={{ height: "40vh" }}>Trade</h1>
-          </Paper>
+          </Paper> */}
         </Grid>
       </Grid>
     </div>
