@@ -50,17 +50,21 @@ function LeagueTrade(props) {
   const tradeStyle = {
     height: "40vh",
   }
+  //create a title for the page
+  const title = `${stock.symbol} - ${stock.name}`;
+
 
   return (
     <div>
+
       {/* League TRADE - League ID = {leagueID} */}
       <Snackbar open={errorModal} autoHideDuration={6000}>
         <MuiAlert severity="error" sx={{ width: "100%" }}>
           {errorMessage}
         </MuiAlert>
       </Snackbar>
-      <Grid container spacing={2} style={{ padding: 40, borderRadius: 10 }}>
-        {console.log(stock)}
+      <h2>{title}</h2>
+      <Grid container spacing={6} style={{ padding: 40, borderRadius: 10 }}>
         <Grid item xs={8} style={{ height: "90vh", paddingTop: 20 }}>
           <TradingViewWidget
             symbol={
@@ -92,14 +96,14 @@ function LeagueTrade(props) {
             </Grid>
             <Button
               variant="contained"
-              style={{ backgroundColor: "green" }}
+              style={{ backgroundColor: "green", marginRight: 20, marginTop: 20 }}
               onClick={buyStock}
             >
               Buy
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "red" }}
+              style={{ backgroundColor: "red",  marginTop: 20 }}
               onClick={sellStock}
             >
               Sell

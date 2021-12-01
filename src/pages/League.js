@@ -58,19 +58,19 @@ const AutocompleteTicker = () => {
     }
   };
 
-  const AutoComplete ={
+  const AutoComplete = {
     height: "10vh",
     width: 500,
     margin: "0px auto",
-  }
+  };
 
   return (
     <div style={AutoComplete}>
-      <Autocomplete 
+      <Autocomplete
         id="stock-ticker-demo"
         options={stockTickerList}
         getOptionLabel={(option) => option.symbol + " - " + option.name}
-        style={{ width: 400, margin: "-20px auto", height: "10vh"}}
+        style={{ width: 400, margin: "-20px auto", height: "10vh" }}
         onChange={(e, value) => setStockSelected(value)}
         renderInput={(params) => (
           <TextField
@@ -94,7 +94,6 @@ function League() {
 
   const HeaderStyle = {
     borderRadius: "25px",
-    padding: 0,
     height: "5vh",
     width: 500,
     margin: "30px auto",
@@ -104,38 +103,41 @@ function League() {
 
   const backGroundColor = {
     backgroundColor: "#5866d3",
-  }
+  };
 
   let styles = {
-    marginRight: '20px'};
+    marginRight: "20px",
+  };
 
-    const getMember = [];
-    client.post("/leagues/getMembers",{lID: "BtKo6KxS84CqWQiNNEQQ"}).then((res) => {
+  const getMember = [];
+  client
+    .post("/leagues/getMembers", { lID: "BtKo6KxS84CqWQiNNEQQ" })
+    .then((res) => {
       console.log(res);
     });
-    
 
-  return(
-     <div>
-       {/* League page - League ID = {leagueID} */}
-         <Grid>
-           <Paper style={HeaderStyle}>
-             <Grid>
-              <h1>Leagues</h1>
-             </Grid>
-             </Paper> 
-        <Grid padding={10} item md={12}   container direction={'row'}>
+  return (
+    <div>
+      <Paper style={HeaderStyle}>
+        <h1>Leagues</h1>
+      </Paper>
+      <Grid container padding={5}>
+        <Grid item xs={6}>
           <Paper style={styles}>
-            {getMember}
-            <h1 style={{ height: "40vh", width:650 }}>Members</h1>
+            <Grid>
+              {getMember}
+              <h1 style={{ height: "40vh" }}>Members</h1>
+            </Grid>
           </Paper>
-          <Paper>
-            <h1 style={{ height: "5vh", width:650}}>Stock</h1>
-            <AutocompleteTicker/>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper style={{ alignContent: "center" }}>
+            <h1 style={{}}>League</h1>
+            <AutocompleteTicker />
           </Paper>
-          </Grid>       
+        </Grid>
       </Grid>
-       </div>
-       );
+    </div>
+  );
 }
 export default League;

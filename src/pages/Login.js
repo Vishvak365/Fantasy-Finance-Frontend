@@ -29,6 +29,7 @@ const Login = (props) => {
         if (user.additionalUserInfo.isNewUser === true) {
           history.push("/onboard");
           client.post("users/createUser");
+          this.window.location.reload();
         }
       })
       .catch((error) => {
