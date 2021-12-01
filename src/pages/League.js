@@ -88,7 +88,6 @@ function League() {
 
   const HeaderStyle = {
     borderRadius: "25px",
-    padding: 0,
     height: "5vh",
     width: 500,
     margin: "30px auto",
@@ -97,40 +96,38 @@ function League() {
   };
 
   let styles = {
-    marginRight: '20px'};
+    marginRight: "20px",
+  };
 
-    const getMember = [];
-    client.post("/leagues/getMembers",{lID: "BtKo6KxS84CqWQiNNEQQ"}).then((res) => {
+  const getMember = [];
+  client
+    .post("/leagues/getMembers", { lID: "BtKo6KxS84CqWQiNNEQQ" })
+    .then((res) => {
       console.log(res);
     });
-    
 
-  return(
-     <div>
-       {/* League page - League ID = {leagueID} */}
-         <Grid>
-           <Paper style={HeaderStyle}>
-             <Grid>
-              <h1>Leagues</h1>
-             </Grid>
-             </Paper>
-          <Grid>
-            <Paper>
-             
-              </Paper> 
-          </Grid>  
-        <Grid padding={10} item md={12}   container direction={'row'}>
+  return (
+    <div>
+      <Paper style={HeaderStyle}>
+        <h1>Leagues</h1>
+      </Paper>
+      <Grid container padding={5}>
+        <Grid item xs={6}>
           <Paper style={styles}>
-            {getMember}
-            <h1 style={{ height: "40vh", width:875 }}>Members</h1>
+            <Grid>
+              {getMember}
+              <h1 style={{ height: "40vh" }}>Members</h1>
+            </Grid>
           </Paper>
-          <Paper>
-            <h1 style={{ height: "40vh", width:850 }}>League</h1>
-            <AutocompleteTicker/>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper style={{ alignContent: "center" }}>
+            <h1 style={{ height: "40vh" }}>League</h1>
+            <AutocompleteTicker />
           </Paper>
-          </Grid>       
+        </Grid>
       </Grid>
-       </div>
-       );
+    </div>
+  );
 }
 export default League;
