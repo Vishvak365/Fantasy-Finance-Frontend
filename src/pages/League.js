@@ -58,13 +58,19 @@ const AutocompleteTicker = () => {
     }
   };
 
+  const AutoComplete = {
+    height: "10vh",
+    width: 500,
+    margin: "0px auto",
+  };
+
   return (
-    <div>
+    <div style={AutoComplete}>
       <Autocomplete
         id="stock-ticker-demo"
         options={stockTickerList}
         getOptionLabel={(option) => option.symbol + " - " + option.name}
-        style={{ width: 300 }}
+        style={{ width: 400, margin: "-20px auto", height: "10vh" }}
         onChange={(e, value) => setStockSelected(value)}
         renderInput={(params) => (
           <TextField
@@ -95,6 +101,10 @@ function League() {
     color: "white",
   };
 
+  const backGroundColor = {
+    backgroundColor: "#5866d3",
+  };
+
   let styles = {
     marginRight: "20px",
   };
@@ -122,7 +132,7 @@ function League() {
         </Grid>
         <Grid item xs={6}>
           <Paper style={{ alignContent: "center" }}>
-            <h1 style={{ height: "40vh" }}>League</h1>
+            <h1 style={{}}>League</h1>
             <AutocompleteTicker />
           </Paper>
         </Grid>
