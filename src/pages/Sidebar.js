@@ -51,24 +51,26 @@ export default function Sidebar(props) {
       />
       <Row name="Home" link="/" />
       <Row name="About" link="/about" />
-      <Row name="Purchase Premium" />
-      <Row name="Sign Out" />
-      {/* <form
-        action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
-        // action={`http://localhost:8080/checkout?token=${props.token}`}
-        method="POST"
-      >
-        <button type="submit" role="link">
-          Purchase Premium
-        </button>
-      </form>
-      <button
+      <Row name="Premium" link="/premium" />
+      <div
         onClick={() => {
           firebase.auth().signOut();
         }}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#ffe2f0",
+          height: 40,
+          // borderStyle: "solid",
+          // borderColor: isActive ? "#D7D7F4 #3535C2 #D7D7F4 #D7D7F4" : "#F4F4FC",
+          color: "#5866d3",
+        }}
       >
-        Sign Out
-      </button> */}
+        <b>Sign Out</b>
+      </div>
     </div>
   );
 }
