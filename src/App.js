@@ -6,6 +6,7 @@ import firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Premium from "./pages/Premium";
 import UserOnBoard from "./pages/UserOnBoard";
 import League from "./pages/League";
 import { Router, Switch, Route } from "react-router-dom";
@@ -61,6 +62,9 @@ function App() {
                   <Route exact path="/onboard" component={UserOnBoard} />
                   <Route exact path="/league/:leagueID" component={League} />
                   <Route exact path="/about" component={About} />
+                  <Route exact path="/premium">
+                    <Premium token={token} />
+                  </Route>
                   <Route
                     exact
                     path="/league/:leagueID/trade/:stock"
