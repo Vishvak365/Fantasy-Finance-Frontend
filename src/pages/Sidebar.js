@@ -51,7 +51,9 @@ export default function Sidebar(props) {
       />
       <Row name="Home" link="/" />
       <Row name="About" link="/about" />
-      <form
+      <Row name="Purchase Premium" />
+      <Row name="Sign Out" />
+      {/* <form
         action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
         // action={`http://localhost:8080/checkout?token=${props.token}`}
         method="POST"
@@ -66,7 +68,7 @@ export default function Sidebar(props) {
         }}
       >
         Sign Out
-      </button>
+      </button> */}
     </div>
   );
 }
