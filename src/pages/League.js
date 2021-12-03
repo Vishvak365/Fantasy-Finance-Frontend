@@ -88,15 +88,33 @@ const AutocompleteTicker = () => {
     </div>
   );
 };
-
 function League() {
+  const [leagueMembers, setLeagueMembers] = React.useState([]);
+  const [userCash, setUserCash] = React.useState(0);
   const { leagueID } = useParams();
+  React.useEffect(() => {
+    async function getLeagueMembers() {
+      console.log("getting league members", leagueID);
+      const members = await client.get(
+        `leagues/getMembers?leagueId=${leagueID}`
+      );
+      setLeagueMembers(members.data);
+      console.log(members.data);
+    }
+    async function getUserCash() {
+      const cash = await client.get(`/leagues/userCash?leagueId=${leagueID}`);
+      setUserCash(cash.data.userCash);
+    }
+    getLeagueMembers();
+    getUserCash();
+  }, [leagueID]);
 
   const HeaderStyle = {
     borderRadius: "25px",
-    height: "5vh",
+    // height: "5vh",
+    // padding: 1,
     width: 500,
-    margin: "30px auto",
+    margin: "auto",
     backgroundColor: "#5866d3",
     color: "white",
   };
@@ -107,26 +125,39 @@ function League() {
 
   let styles = {
     marginRight: "20px",
+    paddingBottom: 10,
   };
-
-  const getMember = [];
-  client
-    .post("/leagues/getMembers", { lID: "BtKo6KxS84CqWQiNNEQQ" })
-    .then((res) => {
-      console.log(res);
-    });
 
   return (
     <div>
-      <Paper style={HeaderStyle}>
+      <div style={HeaderStyle}>
         <h1>Leagues</h1>
-      </Paper>
+        <h3>You have ${userCash}</h3>
+      </div>
       <Grid container padding={5}>
         <Grid item xs={6}>
           <Paper style={styles}>
             <Grid>
-              {getMember}
-              <h1 style={{ height: "40vh" }}>Members</h1>
+              <h1>Members</h1>
+              {leagueMembers.map((member) => (
+                <Paper
+                  style={{
+                    paddingBottom: "10px",
+                    borderRadius: "25px",
+                    marginBottom: 40,
+                    backgroundColor: "#5866d3",
+                    width: "80%",
+                    // height: 40,
+                    margin: "auto",
+                  }}
+                >
+                  <h3 style={{ paddingTop: 10 }}>{member.userName}</h3>
+                  Cash Remaining :{" "}
+                  {member.cash.toString().includes(".")
+                    ? member.cash.toFixed(2)
+                    : member.cash}
+                </Paper>
+              ))}
             </Grid>
           </Paper>
         </Grid>

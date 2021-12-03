@@ -8,26 +8,13 @@ import history from "../../history";
 import { Modal } from "@mui/material";
 import CreateLeagueModal from "./CreateLeagueModal";
 import JoinLeagueModal from "./JoinLeagueModal";
+import client from "../../util/Client";
 
-const exampleLeagues = [
-  {
-    leagueName: "XYZ league",
-    leagueId: "k2ljk234234jifh32k4",
-  },
-  {
-    leagueName: "ABC league",
-    leagueId: "k2ljk234234jifh32k4",
-  },
-  {
-    leagueName: "EFG league",
-    leagueId: "k2ljk234234jifh32k4",
-  },
-];
 function LeagueInfo(props) {
   return (
     <div
       onClick={() => {
-        history.push(`/league/${props.league.leagueId}`);
+        history.push(`/league/${props.league.leagueID}`);
       }}
       style={{
         background: "lightblue",
@@ -49,6 +36,16 @@ export default function LeaguesManage(props) {
   const handleCreateLeagueOpen = () => setCreateLeague(true);
   const handleCreateLeagueClose = () => setCreateLeague(false);
   const [createLeague, setCreateLeague] = React.useState(false);
+
+  const [leagues, setLeagues] = React.useState([]);
+  //Call backend to get leagues that a user is a part of and display them
+  React.useEffect(() => {
+    async function fetchUserLeagues() {
+      const userLeagues = await client.get("/leagues/getUserLeagues");
+      setLeagues(userLeagues.data);
+    }
+    fetchUserLeagues();
+  }, []);
   return (
     <Paper>
       <h3>Leagues</h3>
@@ -81,9 +78,15 @@ export default function LeaguesManage(props) {
           <CreateLeagueModal />
         </Modal>
       </Box>
-      {exampleLeagues.map((data) => {
-        return <LeagueInfo league={data} />;
-      })}
+      {leagues.length === 0 ? (
+        <LeagueInfo
+          league={{ leagueName: "You haven't joined any leagues yet" }}
+        />
+      ) : (
+        leagues.map((data) => {
+          return <LeagueInfo league={data} />;
+        })
+      )}
     </Paper>
   );
 }
