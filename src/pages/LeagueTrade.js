@@ -12,22 +12,33 @@ function LeagueTrade(props) {
   const [shareQuantity, setShareQuantity] = useState(1);
   const [errorModal, setErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [successModal, setSuccessModal] = React.useState(false);
   const { leagueID } = useParams();
   const stock = props.history.location.state.stock;
+  // const stock = { symbol: "TSLA" };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   const buyStock = () => {
     client
-      .post(`league/trade/buy_stock`, {
+      .post(`leagues/trade/buy_stock`, {
         stockName: stock.symbol,
         quantity: shareQuantity,
         leagueId: leagueID,
+        // leagueId: "BtKo6KxS84CqWQiNNEQQ",
       })
       .then((res) => {
         console.log(res);
+        // window.location.reload();
+        setSuccessModal(true);
+        setShareQuantity(1);
       })
       .catch((err) => {
         setErrorMessage(err.response.data.message);
         setErrorModal(true);
+        console.log(err);
       });
   };
 
@@ -47,24 +58,57 @@ function LeagueTrade(props) {
       });
   };
 
+  const handleErrorClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorModal(false);
+  };
+  const handleSuccessClase = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccessModal(false);
+  };
+
   const tradeStyle = {
     height: "40vh",
-  }
+  };
+
   //create a title for the page
   const title = `${stock.symbol} - ${stock.name}`;
 
-
+  // autoHideDuration={6000}
   return (
     <div>
-
-      {/* League TRADE - League ID = {leagueID} */}
-      <Snackbar open={errorModal} autoHideDuration={6000}>
-        <MuiAlert severity="error" sx={{ width: "100%" }}>
+      <Snackbar
+        open={errorModal}
+        autoHideDuration={6000}
+        onClose={handleErrorClose}
+      >
+        <Alert
+          severity="error"
+          sx={{ width: "100%" }}
+          onClose={handleErrorClose}
+        >
           {errorMessage}
-        </MuiAlert>
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={successModal}
+        autoHideDuration={6000}
+        onClose={handleSuccessClase}
+      >
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={handleSuccessClase}
+        >
+          {"Successfully bought stock"}
+        </Alert>
       </Snackbar>
       <h2>{title}</h2>
-      <Grid container spacing={6} style={{ padding: 40, borderRadius: 10 }}>
+      <Grid container spacing={8} style={{ padding: 40, borderRadius: 10 }}>
         <Grid item xs={8} style={{ height: "90vh", paddingTop: 20 }}>
           <TradingViewWidget
             symbol={
@@ -78,7 +122,6 @@ function LeagueTrade(props) {
             hide_side_toolbar={true}
             hide_top_toolbar={true}
             autosize={true}
-            // style={BarStyles.lin}
           />
         </Grid>
         <Grid item xs={4}>
@@ -96,14 +139,18 @@ function LeagueTrade(props) {
             </Grid>
             <Button
               variant="contained"
-              style={{ backgroundColor: "green", marginRight: 20, marginTop: 20 }}
+              style={{
+                backgroundColor: "green",
+                marginRight: 20,
+                marginTop: 20,
+              }}
               onClick={buyStock}
             >
               Buy
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "red",  marginTop: 20 }}
+              style={{ backgroundColor: "red", marginTop: 20 }}
               onClick={sellStock}
             >
               Sell
@@ -119,3 +166,8 @@ function LeagueTrade(props) {
 }
 
 export default LeagueTrade;
+// {
+//   "stockName": "AAPL",
+//   "quantity": 1,
+//   "leagueId": "BtKo6KxS84CqWQiNNEQQ"
+// }
