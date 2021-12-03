@@ -91,6 +91,7 @@ const AutocompleteTicker = () => {
 function League() {
   const [leagueMembers, setLeagueMembers] = React.useState([]);
   const [userCash, setUserCash] = React.useState(0);
+  const [leagueData, setLeagueData] = React.useState({});
   const { leagueID } = useParams();
   React.useEffect(() => {
     async function getLeagueMembers() {
@@ -105,14 +106,22 @@ function League() {
       const cash = await client.get(`/leagues/userCash?leagueId=${leagueID}`);
       setUserCash(cash.data.userCash);
     }
+    async function getLeagueData() {
+      const league = await client.get(
+        `/leagues/leagueInfo?leagueId=${leagueID}`
+      );
+      setLeagueData(league.data);
+    }
     getLeagueMembers();
     getUserCash();
+    getLeagueData();
   }, [leagueID]);
 
   const HeaderStyle = {
     borderRadius: "25px",
     // height: "5vh",
-    // padding: 1,
+    marginTop: "10px",
+    padding: 1,
     width: 500,
     margin: "auto",
     backgroundColor: "#5866d3",
@@ -131,7 +140,7 @@ function League() {
   return (
     <div>
       <div style={HeaderStyle}>
-        <h1>Leagues</h1>
+        <h1>{leagueData.name}</h1>
         <h3>You have ${userCash}</h3>
       </div>
       <Grid container padding={5}>
