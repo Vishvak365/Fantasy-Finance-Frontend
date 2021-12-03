@@ -14,7 +14,7 @@ function LeagueInfo(props) {
   return (
     <div
       onClick={() => {
-        history.push(`/league/${props.league.leagueId}`);
+        history.push(`/league/${props.league.leagueID}`);
       }}
       style={{
         background: "lightblue",
