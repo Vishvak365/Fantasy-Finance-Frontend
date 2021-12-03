@@ -90,6 +90,7 @@ const AutocompleteTicker = () => {
 };
 function League() {
   const [leagueMembers, setLeagueMembers] = React.useState([]);
+  const [userCash, setUserCash] = React.useState(0);
   const { leagueID } = useParams();
   React.useEffect(() => {
     async function getLeagueMembers() {
@@ -100,7 +101,12 @@ function League() {
       setLeagueMembers(members.data);
       console.log(members.data);
     }
+    async function getUserCash() {
+      const cash = await client.get(`/leagues/userCash?leagueId=${leagueID}`);
+      setUserCash(cash.data.userCash);
+    }
     getLeagueMembers();
+    getUserCash();
   }, [leagueID]);
 
   const HeaderStyle = {
@@ -119,13 +125,14 @@ function League() {
 
   let styles = {
     marginRight: "20px",
-    paddingBottom:10
+    paddingBottom: 10,
   };
 
   return (
     <div>
       <div style={HeaderStyle}>
         <h1>Leagues</h1>
+        <h3>You have ${userCash}</h3>
       </div>
       <Grid container padding={5}>
         <Grid item xs={6}>
@@ -144,8 +151,11 @@ function League() {
                     margin: "auto",
                   }}
                 >
-                  <h3 style={{paddingTop:10}}>{member.userName}</h3>
-                  Cash Remaining : {member.cash}
+                  <h3 style={{ paddingTop: 10 }}>{member.userName}</h3>
+                  Cash Remaining :{" "}
+                  {member.cash.toString().includes(".")
+                    ? member.cash.toFixed(2)
+                    : member.cash}
                 </Paper>
               ))}
             </Grid>
