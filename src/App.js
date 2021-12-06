@@ -43,6 +43,7 @@ function App() {
                     backgroundColor: "#5866d3",
                     alignItems: "center",
                     height: 50,
+                    marginBottom: 10,
                     display: "flex",
                   }}
                 >

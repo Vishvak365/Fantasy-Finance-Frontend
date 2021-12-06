@@ -123,7 +123,7 @@ function League() {
   const HeaderStyle = {
     borderRadius: "25px",
     // height: "5vh",
-    marginTop: "10px",
+    // marginTop: "15px",
     padding: 1,
     width: 500,
     margin: "auto",
