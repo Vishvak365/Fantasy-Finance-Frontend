@@ -27,8 +27,9 @@ const Login = (props) => {
       .then((user) => {
         console.log(props.token);
         if (user.additionalUserInfo.isNewUser === true) {
-          history.push("/onboard");
-          client.post("users/createUser");
+          client.post("/users/createUser").then(() => {
+            history.push("/onboard");
+          });
           this.window.location.reload();
         }
       })
