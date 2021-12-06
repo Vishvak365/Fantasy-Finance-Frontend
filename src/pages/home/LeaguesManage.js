@@ -36,6 +36,8 @@ export default function LeaguesManage(props) {
   const handleCreateLeagueOpen = () => setCreateLeague(true);
   const handleCreateLeagueClose = () => setCreateLeague(false);
   const [createLeague, setCreateLeague] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
   const [leagues, setLeagues] = React.useState([]);
   //Call backend to get leagues that a user is a part of and display them
@@ -44,7 +46,11 @@ export default function LeaguesManage(props) {
       const userLeagues = await client.get("/leagues/getUserLeagues");
       setLeagues(userLeagues.data);
     }
-    fetchUserLeagues();
+    fetchUserLeagues()
+      .then(() => setLoading(false))
+      .catch((err) => {
+        setError(err);
+      });
   }, []);
   return (
     <Paper>
@@ -78,7 +84,11 @@ export default function LeaguesManage(props) {
           <CreateLeagueModal />
         </Modal>
       </Box>
-      {leagues.length === 0 ? (
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : leagues.length === 0 ? (
         <LeagueInfo
           league={{ leagueName: "You haven't joined any leagues yet" }}
         />
