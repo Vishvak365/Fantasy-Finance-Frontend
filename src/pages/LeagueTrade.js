@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router";
-import TradingViewWidget, { Themes, BarStyles } from "react-tradingview-widget";
+import TradingViewWidget, { Themes } from "react-tradingview-widget";
 import Grid from "@mui/material/Grid";
-import { Button, Paper, Autocomplete, TextField } from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -16,13 +16,14 @@ function LeagueTrade(props) {
   const [successModal, setSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
   const [stockPortfolio, setStockPortfolio] = React.useState({});
-  const { leagueID } = useParams();
-  const stock = props.history.location.state.stock;
+  let { leagueID, stock } = useParams();
+  // stock = stock.toUpperCase();
+  // let stock = { symbol: stockName.toUpperCase() };
   // const stock = { symbol: "TSLA" };
   React.useEffect(() => {
     async function getStockPortfolioValue() {
       const response = await client.get(
-        `/leagues/portfolioValue/stock?leagueId=${leagueID}&stockName=${stock.symbol}`
+        `/leagues/portfolioValue/stock?leagueId=${leagueID}&stockName=${stock}`
       );
       setStockPortfolio(response.data);
     }
@@ -35,7 +36,7 @@ function LeagueTrade(props) {
   const buyStock = () => {
     client
       .post(`leagues/trade/buy_stock`, {
-        stockName: stock.symbol,
+        stockName: stock,
         quantity: shareQuantity,
         leagueId: leagueID,
         // leagueId: "BtKo6KxS84CqWQiNNEQQ",
@@ -44,9 +45,9 @@ function LeagueTrade(props) {
         console.log(res);
         // window.location.reload();
         // setSuccessModal(true);
-        // setSuccessMessage(`Successfully bought ${shareQuantity} shares of ${stock.symbol}`);
+        // setSuccessMessage(`Successfully bought ${shareQuantity} shares of ${stock}`);
         // setShareQuantity(1);
-        history.goBack();
+        history.push("/league/" + leagueID);
       })
       .catch((err) => {
         setErrorMessage(err.response.data.message);
@@ -58,15 +59,15 @@ function LeagueTrade(props) {
   const sellStock = () => {
     client
       .post(`leagues/trade/sell_stock`, {
-        stockName: stock.symbol,
+        stockName: stock,
         quantity: shareQuantity,
         leagueId: leagueID,
       })
       .then((res) => {
         console.log(res);
-        history.goBack();
+        history.push("/league/" + leagueID);
         // setSuccessModal(true);
-        // setSuccessMessage(`Successfully sold ${shareQuantity} shares of ${stock.symbol}`);
+        // setSuccessMessage(`Successfully sold ${shareQuantity} shares of ${stock}`);
         // setShareQuantity(1);
       })
       .catch((err) => {
@@ -93,7 +94,7 @@ function LeagueTrade(props) {
   };
 
   //create a title for the page
-  const title = `${stock.symbol} - ${stock.name}`;
+  const title = `${stock}`;
 
   // autoHideDuration={6000}
   return (
@@ -124,15 +125,11 @@ function LeagueTrade(props) {
           {successMessage}
         </Alert>
       </Snackbar>
-      <h2>{title}</h2>
+      <h1>{title}</h1>
       <Grid container spacing={8} style={{ padding: 40, borderRadius: 10 }}>
         <Grid item xs={8} style={{ height: "90vh", paddingTop: 20 }}>
           <TradingViewWidget
-            symbol={
-              stock.symbol.length >= 4
-                ? `NASDAQ:${stock.symbol}`
-                : `NYSE:${stock.symbol}`
-            }
+            symbol={stock.length >= 4 ? `NASDAQ:${stock}` : `NYSE:${stock}`}
             theme={Themes.DARK}
             allow_symbol_change={false}
             enable_publishing={false}
@@ -145,21 +142,43 @@ function LeagueTrade(props) {
           {stockPortfolio.stock ? (
             <div
               style={{
+                // maxHeight: "1vh",
+                // overflow: "auto",
                 backgroundColor:
                   stockPortfolio.profit < 0 ? "#ffa7a7" : "#e0ffcd",
                 borderRadius: 10,
                 padding: 10,
               }}
             >
-              <h3>Your {stock.symbol} Portfolio</h3>
-              Quantity : {stockPortfolio.quantity}
+              <h3>Your {stock} Portfolio</h3>
+              Quantity : <b>{stockPortfolio.quantity}</b>
               <br />
-              Total Value: ${stockPortfolio.totalValue}
+              Total Value:{" "}
+              <b>
+                $
+                {stockPortfolio.totalValue.toString().includes(".")
+                  ? stockPortfolio.totalValue.toFixed(2)
+                  : stockPortfolio.totalValue}
+              </b>
               <br />
-              Average Price: ${stockPortfolio.averagePrice}
+              Average Price:{" "}
+              <b>
+                $
+                {stockPortfolio.averagePrice.toString().includes(".")
+                  ? stockPortfolio.averagePrice.toFixed(2)
+                  : stockPortfolio.averagePrice}
+              </b>
               <br />
               <div>
-                <h4>Profit: ${stockPortfolio.profit}</h4>
+                <h4>
+                  Profit:{" "}
+                  <b>
+                    $
+                    {stockPortfolio.profit.toString().includes(".")
+                      ? stockPortfolio.profit.toFixed(2)
+                      : stockPortfolio.profit}
+                  </b>
+                </h4>
               </div>
             </div>
           ) : (

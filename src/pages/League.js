@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Button, Grid, Paper, Autocomplete, TextField } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import client from "../util/Client";
-import { ClassNames } from "@emotion/react";
 
 const AutocompleteTicker = () => {
   const { leagueID } = useParams();
@@ -57,41 +56,44 @@ const AutocompleteTicker = () => {
       alert("Please select a stock");
     }
   };
-
-  const AutoComplete = {
-    height: "10vh",
-    width: 500,
-    margin: "0px auto",
-  };
-
   return (
-    <div style={AutoComplete}>
-      <Autocomplete
-        id="stock-ticker-demo"
-        options={stockTickerList}
-        getOptionLabel={(option) => option.symbol + " - " + option.name}
-        style={{ width: 400, margin: "-20px auto", height: "10vh" }}
-        onChange={(e, value) => setStockSelected(value)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Stock Ticker"
-            variant="outlined"
-            onChange={(event) => handleSearch(event)}
-          />
-        )}
-      />
-      {stockTickerListLoading && <p>Loading...</p>}
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Search
-      </Button>
-    </div>
+    <Grid container padding={1}>
+      <Grid item xs={10}>
+        <Autocomplete
+          id="stock-ticker-demo"
+          options={stockTickerList}
+          getOptionLabel={(option) => option.symbol + " - " + option.name}
+          onChange={(e, value) => setStockSelected(value)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Stock Ticker"
+              variant="outlined"
+              onChange={(event) => handleSearch(event)}
+            />
+          )}
+        />
+        {stockTickerListLoading && <p>Loading...</p>}
+      </Grid>
+      <Grid item xs={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          style={{ height: 55 }}
+        >
+          Search
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 function League() {
+  let history = useHistory();
   const [leagueMembers, setLeagueMembers] = React.useState([]);
   const [userCash, setUserCash] = React.useState(0);
   const [leagueData, setLeagueData] = React.useState({});
+  const [totalStockPortfolio, setTotalStockPortfolio] = React.useState([]);
   const { leagueID } = useParams();
   React.useEffect(() => {
     async function getLeagueMembers() {
@@ -115,9 +117,16 @@ function League() {
       console.log("yeet", league.data);
       setLeagueData(league.data);
     }
+    async function getUserPortfolio() {
+      const portfolio = await client.get(
+        `/leagues/portfolioValue/total?leagueId=${leagueID}`
+      );
+      setTotalStockPortfolio(portfolio.data);
+    }
     getLeagueMembers();
     getUserCash();
     getLeagueData();
+    getUserPortfolio();
   }, [leagueID]);
 
   const HeaderStyle = {
@@ -131,10 +140,6 @@ function League() {
     color: "white",
   };
 
-  const backGroundColor = {
-    backgroundColor: "#5866d3",
-  };
-
   let styles = {
     marginRight: "20px",
     paddingBottom: 10,
@@ -144,7 +149,13 @@ function League() {
     <div>
       <div style={HeaderStyle}>
         <h1>{leagueData.name}</h1>
-        <h3>You have ${userCash}</h3>
+        <h3>
+          You have $
+          {
+            //round to 2 decimal places
+            parseFloat(userCash).toFixed(2)
+          }
+        </h3>
         <p>League ID - {leagueID}</p>
       </div>
       <Grid container padding={5}>
@@ -175,10 +186,66 @@ function League() {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper style={{ alignContent: "center" }}>
-            <h1 style={{}}>League</h1>
+          <Paper
+            style={{ alignContent: "center", height: "15vh", marginBottom: 10 }}
+          >
+            <h1>Trade</h1>
             <AutocompleteTicker />
           </Paper>
+          {totalStockPortfolio.map((stockPortfolio) => (
+            <div
+              style={{
+                // maxHeight: "1vh",
+                // overflow: "auto",
+                backgroundColor:
+                  stockPortfolio.profit < 0 ? "#ffa7a7" : "#e0ffcd",
+                borderRadius: 10,
+                padding: 10,
+                marginBottom: 10,
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                console.log(stockPortfolio.stock);
+                history.push({
+                  pathname: `/league/${leagueID}/trade/${stockPortfolio.stock}`,
+                  state: {
+                    stock: { symbol: stockPortfolio.stock },
+                  },
+                });
+              }}
+            >
+              <h3>{stockPortfolio.stock}</h3>
+              Quantity : <b>{stockPortfolio.quantity}</b>
+              <br />
+              Total Value:{" "}
+              <b>
+                $
+                {stockPortfolio.totalValue.toString().includes(".")
+                  ? stockPortfolio.totalValue.toFixed(2)
+                  : stockPortfolio.totalValue}
+              </b>
+              <br />
+              Average Price:{" "}
+              <b>
+                $
+                {stockPortfolio.averagePrice.toString().includes(".")
+                  ? stockPortfolio.averagePrice.toFixed(2)
+                  : stockPortfolio.averagePrice}
+              </b>
+              <br />
+              <div>
+                <h4>
+                  Profit:{" "}
+                  <b>
+                    $
+                    {stockPortfolio.profit.toString().includes(".")
+                      ? stockPortfolio.profit.toFixed(2)
+                      : stockPortfolio.profit}
+                  </b>
+                </h4>
+              </div>
+            </div>
+          ))}
         </Grid>
       </Grid>
     </div>

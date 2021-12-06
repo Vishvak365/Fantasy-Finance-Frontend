@@ -1,17 +1,9 @@
 import React from "react";
-import firebase from "firebase/app";
 import "firebase/auth";
-// import client from "../util/Client";
 import LeaguesManage from "./home/LeaguesManage";
 import Box from "@mui/material/Box";
 import LeagueHistory from "./home/LeagueHistory";
-export default function Home(props) {
-  const paperStyle = {
-    padding: 10,
-    width: "80%",
-    margin: "auto",
-    marginBottom: 10,
-  };
+export default function Home() {
   return (
     <div>
       <div style={{ width: "100%" }}>
