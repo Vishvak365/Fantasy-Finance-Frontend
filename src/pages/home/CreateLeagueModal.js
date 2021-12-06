@@ -92,7 +92,7 @@ export default function CreateLeagueModal(props) {
   ];
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={10}>
       <Snackbar open={errorModal} autoHideDuration={6000}>
         <MuiAlert severity="error" sx={{ width: "100%" }}>
           {errorMessage}
@@ -111,38 +111,26 @@ export default function CreateLeagueModal(props) {
           p: 4,
           margin: 5,
           padding: 10,
-          height: "50%",
+          height: "70%",
           width: "25%",
           textAlign: "center",
+          containAlign: "center",
         }}
       >
         <h2>Create League</h2>
-        <Grid item xs={12}>
-          <Typography variant="h6">
-            {" "}
-            League Name:{" "}
-            <MuiInput
-              id="leagueName"
-              label="League Name"
-              value={leagueName}
-              onChange={(event) => setLeagueName(event.target.value)}
-            />
-          </Typography>
-        </Grid>
-        <br />
-        <Grid item xs={12} style={{ width: 250, margin: (60, "Auto") }}>
-          <Typography variant="h6">
-            {" "}
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <TextField
+            id="outlined-basic"
+            label="League Name"
+            variant="outlined"
+            value={leagueName}
+            onChange={(event) => setLeagueName(event.target.value)}
+          />
+          <br />
+          <br />
+          <Typography id="discrete-slider" gutterBottom>
             Starting Capital: ${startingCapital}
-            {/* <TextField
-              id="startingCapital"
-              label="Starting Capital"
-              type="number"
-              value={startingCapital}
-              inputProps={{ min: 1000, max: 1000000 }}
-              onChange={handleStartingCapitalChange}
-            /> */}
-          </Typography>{" "}
+          </Typography>
           <Slider
             aria-label="Always visible"
             defaultValue={100}
@@ -152,50 +140,142 @@ export default function CreateLeagueModal(props) {
             marks={marks}
             min={1000}
             max={10000}
+            style={{ width: 250, margin: (60, "Auto") }}
           />
-        </Grid>
-        <Typography variant="h6">
-          Market Hours:{" "}
+          <br />
+          <br />
+          {/* <span>Market Hours Only:</span> */}
+          <Typography  gutterBottom>
+            Market Hours Only:
           <input
             type="checkbox"
             checked={marketHours}
             onChange={handleMarketHours}
             value={marketHours}
             color="primary"
-          />{" "}
-        </Typography>
-        <br />
-        <Typography variant="h6">
-          Day Trading:{" "}
+          />
+          </Typography>
+          <br />
+          {/* <span>Day Trading Only: </span> */}
+          <Typography  gutterBottom>
+            Day Trading:
           <input
             type="checkbox"
             checked={dayTrading}
             onChange={handleDayTrading}
             value="dayTrading"
             color="primary"
-          />{" "}
-        </Typography>
-        <br />
-        <Typography variant="h6">
-          End Date:{" "}
-          <MuiInput
-            label="End Date"
-            type="date"
-            value={endDate}
-            onChange={handleEndDate}
           />
-        </Typography>
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ margin: 10 }}
-          onClick={handleSubmit}
-        >
-          {" "}
-          Submit
-        </Button>
+          </Typography>
+          <br />
+          <Typography id="discrete-slider" gutterBottom>
+            End Date:{" "}
+            <MuiInput
+              label="End Date"
+              type="date"
+              value={endDate}
+              onChange={handleEndDate}
+            />
+          </Typography>
+
+          <br />
+          <br />
+          <Button
+            variant="contained"
+            style={{ margin: 10 ,
+            backgroundColor: "#5866d3",
+            color: "white",
+            }}
+            onClick={handleSubmit}
+          >
+            {" "}
+            Submit
+          </Button>
+        </form>
       </Paper>
     </Grid>
   );
 }
+
+//         <Grid item xs={12}>
+//           <Typography variant="h6">
+//             {" "}
+//             League Name:{" "}
+//             <MuiInput
+//               id="leagueName"
+//               label="League Name"
+//               value={leagueName}
+//               onChange={(event) => setLeagueName(event.target.value)}
+//             />
+//           </Typography>
+//         </Grid>
+//         <br />
+//         <Grid item xs={12} style={{ width: 250, margin: (60, "Auto") }}>
+//           <Typography variant="h6">
+//             {" "}
+//             Starting Capital: ${startingCapital}
+//             {/* <TextField
+//               id="startingCapital"
+//               label="Starting Capital"
+//               type="number"
+//               value={startingCapital}
+//               inputProps={{ min: 1000, max: 1000000 }}
+//               onChange={handleStartingCapitalChange}
+//             /> */}
+//           </Typography>{" "}
+//           <Slider
+//             aria-label="Always visible"
+//             defaultValue={100}
+//             getAriaValueText={(value) => `${value}`}
+//             onChange={handleStartingCapitalChange}
+//             step={100}
+//             marks={marks}
+//             min={1000}
+//             max={10000}
+//           />
+//         </Grid>
+//         <Typography variant="h6">
+//           Market Hours:{" "}
+          // <input
+          //   type="checkbox"
+          //   checked={marketHours}
+          //   onChange={handleMarketHours}
+          //   value={marketHours}
+          //   color="primary"
+          // />{" "}
+//         </Typography>
+//         <br />
+//         <Typography variant="h6">
+//           Day Trading:{" "}
+          // <input
+          //   type="checkbox"
+          //   checked={dayTrading}
+          //   onChange={handleDayTrading}
+          //   value="dayTrading"
+          //   color="primary"
+          // />{" "}
+//         </Typography>
+//         <br />
+//         <Typography variant="h6">
+//           End Date:{" "}
+//           <MuiInput
+//             label="End Date"
+//             type="date"
+//             value={endDate}
+//             onChange={handleEndDate}
+//           />
+//         </Typography>
+//         <br />
+//         <Button
+//           variant="contained"
+//           color="primary"
+//           style={{ margin: 10 }}
+//           onClick={handleSubmit}
+//         >
+//           {" "}
+//           Submit
+//         </Button>
+//       </Paper>
+//     </Grid>
+//   );
+// }
