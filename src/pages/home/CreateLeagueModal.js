@@ -54,9 +54,9 @@ export default function CreateLeagueModal(props) {
     };
     console.log(league);
 
-    event.preventDefault();
+    // event.preventDefault();
     if (leagueName === "" || endDate === null || startingCapital === 0) {
-      alert("Please fill out all fields");
+      alert("Please fill out Name and End Date");
     } else {
       client
         .post("/leagues/create", league)
@@ -123,6 +123,7 @@ export default function CreateLeagueModal(props) {
             id="outlined-basic"
             label="League Name"
             variant="outlined"
+            required
             value={leagueName}
             onChange={(event) => setLeagueName(event.target.value)}
           />
@@ -174,6 +175,7 @@ export default function CreateLeagueModal(props) {
               label="End Date"
               type="date"
               value={endDate}
+              required
               onChange={handleEndDate}
             />
           </Typography>
