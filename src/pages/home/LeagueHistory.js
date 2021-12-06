@@ -43,7 +43,7 @@ const LeagueHistoryCard = (props) => {
           {props.stock.leagueName}
         </Typography>
         <h4>
-          Stock: {props.stock.stock} Quantity: {props.stock.quantity}
+          Stock: {props.stock.stock} Shares: {props.stock.quantity}
         </h4>
         <h4>
           <p>Action: {props.stock.action.toUpperCase()} </p> Price: $
