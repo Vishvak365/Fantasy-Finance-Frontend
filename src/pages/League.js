@@ -103,13 +103,16 @@ function League() {
       console.log(members.data);
     }
     async function getUserCash() {
+      console.log("getting user cash");
       const cash = await client.get(`/leagues/userCash?leagueId=${leagueID}`);
+      console.log(cash);
       setUserCash(cash.data.userCash);
     }
     async function getLeagueData() {
       const league = await client.get(
         `/leagues/leagueInfo?leagueId=${leagueID}`
       );
+      console.log("yeet", league.data);
       setLeagueData(league.data);
     }
     getLeagueMembers();
@@ -142,6 +145,7 @@ function League() {
       <div style={HeaderStyle}>
         <h1>{leagueData.name}</h1>
         <h3>You have ${userCash}</h3>
+        <p>League ID - {leagueID}</p>
       </div>
       <Grid container padding={5}>
         <Grid item xs={6}>
