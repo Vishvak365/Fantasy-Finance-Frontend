@@ -7,12 +7,14 @@ import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import client from "../util/Client";
+import history from ".././history";
 
 function LeagueTrade(props) {
   const [shareQuantity, setShareQuantity] = useState(1);
   const [errorModal, setErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
+  const [successMessage, setSuccessMessage] = React.useState("");
   const { leagueID } = useParams();
   const stock = props.history.location.state.stock;
   // const stock = { symbol: "TSLA" };
@@ -32,8 +34,10 @@ function LeagueTrade(props) {
       .then((res) => {
         console.log(res);
         // window.location.reload();
-        setSuccessModal(true);
-        setShareQuantity(1);
+        // setSuccessModal(true);
+        // setSuccessMessage(`Successfully bought ${shareQuantity} shares of ${stock.symbol}`);
+        // setShareQuantity(1);
+        history.goBack();
       })
       .catch((err) => {
         setErrorMessage(err.response.data.message);
@@ -44,13 +48,17 @@ function LeagueTrade(props) {
 
   const sellStock = () => {
     client
-      .post(`league/trade/sell_stock`, {
+      .post(`leagues/trade/sell_stock`, {
         stockName: stock.symbol,
         quantity: shareQuantity,
         leagueId: leagueID,
       })
       .then((res) => {
         console.log(res);
+        history.goBack();
+        // setSuccessModal(true);
+        // setSuccessMessage(`Successfully sold ${shareQuantity} shares of ${stock.symbol}`);
+        // setShareQuantity(1);
       })
       .catch((err) => {
         setErrorMessage(err.response.data.message);
@@ -104,7 +112,7 @@ function LeagueTrade(props) {
           sx={{ width: "100%" }}
           onClose={handleSuccessClase}
         >
-          {"Successfully bought stock"}
+          {successMessage}
         </Alert>
       </Snackbar>
       <h2>{title}</h2>
@@ -130,7 +138,7 @@ function LeagueTrade(props) {
             <Grid item xs={12}>
               <TextField
                 id="outlined-number"
-                label="Quantity"
+                label="Share Quantity"
                 type="number"
                 variant="outlined"
                 value={shareQuantity}
