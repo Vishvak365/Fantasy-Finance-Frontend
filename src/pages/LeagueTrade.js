@@ -44,17 +44,21 @@ function LeagueTrade(props) {
 
   const sellStock = () => {
     client
-      .post(`league/trade/sell_stock`, {
+      .post(`leagues/trade/sell_stock`, {
         stockName: stock.symbol,
         quantity: shareQuantity,
         leagueId: leagueID,
       })
       .then((res) => {
         console.log(res);
+        setSuccessModal(true);
+        setShareQuantity(1);
+
       })
       .catch((err) => {
         setErrorMessage(err.response.data.message);
         setErrorModal(true);
+        console.log(err);
       });
   };
 
@@ -70,6 +74,7 @@ function LeagueTrade(props) {
     }
     setSuccessModal(false);
   };
+
 
   const tradeStyle = {
     height: "40vh",

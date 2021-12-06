@@ -76,7 +76,7 @@ function UserOnBoard(props) {
           <Paper elevation={10} style={AboutStyle}>
           <h1>Welcome to Fantasy Finance</h1>
           <Grid align="center"></Grid>
-          <p>Fantasy Finance is a competitive paper trading application. Fantasy Finance allows you to join fantasy leagues where you can compete against your friends or other users by buying and selling stocks. This platform utilizes real financial market data to allow users to build their paper portfolio and compete inorder to create the best return on investment.</p>
+          <p>Fantasy Finance is a competitive paper trading application. Fantasy Finance allows you to join fantasy leagues where you can compete against your friends or other users by buying and selling stocks. This platform utilizes real financial market data to allow you to build your paper portfolio and compete inorder to create the best return on investment.</p>
           <Paper elevation={10} style={PremiumStyle}>
           <Button onClick={() => history.push("/")}>Start</Button>
           </Paper>
@@ -84,7 +84,7 @@ function UserOnBoard(props) {
           action={`https://fantasy-finance-backend.herokuapp.com/checkout?token=${props.token}`}
           method="POST"
           >
-          <p>You are can join the preimum account for $12</p>
+          <p>You can join the preimum account for $12</p>
           <Paper elevation={10} style={PremiumStyle}>
           <Button type="submit" role="link">
             Join Premium
