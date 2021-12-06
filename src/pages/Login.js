@@ -13,11 +13,12 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import history from "../history";
 import client from "../util/Client";
 
 const Login = (props) => {
-  let history = useHistory();
+  // let history = useHistory();
 
   function googleSignInPopup() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -27,8 +28,8 @@ const Login = (props) => {
       .then((user) => {
         console.log(props.token);
         if (user.additionalUserInfo.isNewUser === true) {
-          history.push("/onboard");
           client.post("users/createUser");
+          history.push("/onboard");
           this.window.location.reload();
         }
       })

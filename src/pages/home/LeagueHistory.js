@@ -21,6 +21,10 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.primary,
 }));
+const scroolStyle = {
+  maxHeight: "75vh",
+  overflow: "auto",
+};
 
 const LeagueHistoryCard = (props) => {
   //create cards for each stock
@@ -42,7 +46,8 @@ const LeagueHistoryCard = (props) => {
           Stock: {props.stock.stock} Quantity: {props.stock.quantity}
         </h4>
         <h4>
-          Action: {props.stock.action.toUpperCase()}   Price: ${props.stock.price}
+          <p>Action: {props.stock.action.toUpperCase()} </p> Price: $
+          {props.stock.price}
         </h4>
         <h4>
           Executed: {date.toDateString()}, {date.toLocaleTimeString()}
@@ -96,8 +101,6 @@ const LeagueHistoryPop = (props) => {
   );
 };
 
-
-
 const LeagueHistory = () => {
   const [history, setHistory] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -119,24 +122,24 @@ const LeagueHistory = () => {
       setError(error);
     }
   }, [loading]);
-  
+
   return (
-      <Paper>
+    <Paper>
       <h3>League History</h3>
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
         <div>{error.message}</div>
+      ) : history.length > 0 ? (
+        <div style={scroolStyle}>
+          {history.map((stock) => (
+            <LeagueHistoryCard stock={stock} />
+          ))}
+        </div>
       ) : (
-      history.length > 0 ? (
-        history.map((stock) => (
-          <LeagueHistoryCard stock={stock} />
-        ))
-        ) : (
-          <div>No history</div>
-        )
+        <div>No history</div>
       )}
-      </Paper>
+    </Paper>
   );
 };
 
