@@ -134,6 +134,7 @@ function LeagueTrade(props) {
                 type="number"
                 variant="outlined"
                 value={shareQuantity}
+                inputProps={{ min: 1 }}
                 onChange={(e) => setShareQuantity(e.target.value)}
               />
             </Grid>
