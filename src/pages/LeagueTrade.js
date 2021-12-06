@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import TradingViewWidget, { Themes, BarStyles } from "react-tradingview-widget";
 import Grid from "@mui/material/Grid";
@@ -15,10 +15,19 @@ function LeagueTrade(props) {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
+  const [stockPortfolio, setStockPortfolio] = React.useState({});
   const { leagueID } = useParams();
   const stock = props.history.location.state.stock;
   // const stock = { symbol: "TSLA" };
-
+  React.useEffect(() => {
+    async function getStockPortfolioValue() {
+      const response = await client.get(
+        `/leagues/portfolioValue/stock?leagueId=${leagueID}&stockName=${stock.symbol}`
+      );
+      setStockPortfolio(response.data);
+    }
+    getStockPortfolioValue();
+  }, [leagueID, stock]);
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -133,6 +142,29 @@ function LeagueTrade(props) {
           />
         </Grid>
         <Grid item xs={4}>
+          {stockPortfolio.stock ? (
+            <div
+              style={{
+                backgroundColor:
+                  stockPortfolio.profit < 0 ? "#ffa7a7" : "#e0ffcd",
+                borderRadius: 10,
+                padding: 10,
+              }}
+            >
+              <h3>Your {stock.symbol} Portfolio</h3>
+              Quantity : {stockPortfolio.quantity}
+              <br />
+              Total Value: ${stockPortfolio.totalValue}
+              <br />
+              Average Price: ${stockPortfolio.averagePrice}
+              <br />
+              <div>
+                <h4>Profit: ${stockPortfolio.profit}</h4>
+              </div>
+            </div>
+          ) : (
+            <br />
+          )}
           <Paper style={tradeStyle}>
             <h1 style={{ height: "5vh" }}>Trade</h1>
             <Grid item xs={12}>
