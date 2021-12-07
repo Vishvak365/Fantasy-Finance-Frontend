@@ -166,6 +166,7 @@ function League() {
               {leagueMembers.map((member) => (
                 <Paper
                   style={{
+                    color: "white",
                     paddingBottom: "10px",
                     borderRadius: "25px",
                     marginBottom: 40,

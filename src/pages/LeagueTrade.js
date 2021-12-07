@@ -16,6 +16,7 @@ function LeagueTrade(props) {
   const [successModal, setSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
   const [stockPortfolio, setStockPortfolio] = React.useState({});
+  const [currentPrice, setCurrentPrice] = React.useState(0);
   let { leagueID, stock } = useParams();
   // stock = stock.toUpperCase();
   // let stock = { symbol: stockName.toUpperCase() };
@@ -27,6 +28,13 @@ function LeagueTrade(props) {
       );
       setStockPortfolio(response.data);
     }
+    async function getCurrentStockPrice() {
+      const response = await client.get(
+        `/stock/currentPrice?stockName=${stock}`
+      );
+      setCurrentPrice(response.data.price);
+    }
+    getCurrentStockPrice();
     getStockPortfolioValue();
   }, [leagueID, stock]);
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -90,7 +98,8 @@ function LeagueTrade(props) {
   };
 
   const tradeStyle = {
-    height: "40vh",
+    marginTop: 10,
+    padding: 10,
   };
 
   //create a title for the page
@@ -185,7 +194,8 @@ function LeagueTrade(props) {
             <br />
           )}
           <Paper style={tradeStyle}>
-            <h1 style={{ height: "5vh" }}>Trade</h1>
+            <h1>Trade</h1>
+            <h3>Current Price: ${currentPrice}</h3>
             <Grid item xs={12}>
               <TextField
                 id="outlined-number"
@@ -216,9 +226,6 @@ function LeagueTrade(props) {
               Sell
             </Button>
           </Paper>
-          {/* <Paper>
-            <h1 style={{ height: "40vh" }}>Trade</h1>
-          </Paper> */}
         </Grid>
       </Grid>
     </div>
