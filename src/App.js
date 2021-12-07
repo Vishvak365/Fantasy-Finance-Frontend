@@ -14,6 +14,7 @@ import history from "./history";
 import LeagueTrade from "./pages/LeagueTrade";
 import Sidebar from "./pages/Sidebar";
 import Grid from "@mui/material/Grid";
+import LeagueUser from "./pages/LeagueUser";
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
   const [token, setToken] = React.useState();
@@ -70,6 +71,11 @@ function App() {
                     exact
                     path="/league/:leagueID/trade/:stock"
                     component={LeagueTrade}
+                  />
+                  <Route
+                    exact
+                    path="/league/:leagueID/user/:uid"
+                    component={LeagueUser}
                   />
                 </Switch>
               </Grid>

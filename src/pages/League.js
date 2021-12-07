@@ -172,15 +172,24 @@ function League() {
                     marginBottom: 40,
                     backgroundColor: "#5866d3",
                     width: "80%",
+                    cursor: "pointer",
                     // height: 40,
                     margin: "auto",
                   }}
                 >
-                  <h3 style={{ paddingTop: 10 }}>{member.userName}</h3>
-                  Cash Remaining :{" "}
-                  {member.cash.toString().includes(".")
-                    ? member.cash.toFixed(2)
-                    : member.cash}
+                  <div
+                    onClick={() => {
+                      history.push(
+                        "/league/" + leagueID + "/user/" + member.user_id
+                      );
+                    }}
+                  >
+                    <h3 style={{ paddingTop: 10 }}>{member.userName}</h3>
+                    Cash Remaining :{" "}
+                    {member.cash.toString().includes(".")
+                      ? member.cash.toFixed(2)
+                      : member.cash}
+                  </div>
                 </Paper>
               ))}
             </Grid>
