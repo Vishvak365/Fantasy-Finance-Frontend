@@ -94,6 +94,7 @@ function League() {
   const [userCash, setUserCash] = React.useState(0);
   const [leagueData, setLeagueData] = React.useState({});
   const [totalStockPortfolio, setTotalStockPortfolio] = React.useState([]);
+  const [totalPortfolioValue, setTotalPortfolioValue] = React.useState(0);
   const { leagueID } = useParams();
   React.useEffect(() => {
     async function getLeagueMembers() {
@@ -122,12 +123,18 @@ function League() {
         `/leagues/portfolioValue/total?leagueId=${leagueID}`
       );
       setTotalStockPortfolio(portfolio.data);
+      let value = 0;
+      for (let i = 0; i < portfolio.data.length; i++) {
+        value += portfolio.data[i].totalValue;
+      }
+      setTotalPortfolioValue(value + userCash);
+      console.log("Total User Value", value + userCash);
     }
     getLeagueMembers();
     getUserCash();
     getLeagueData();
     getUserPortfolio();
-  }, [leagueID]);
+  }, [leagueID, userCash]);
 
   const HeaderStyle = {
     borderRadius: "25px",
@@ -154,6 +161,14 @@ function League() {
           {
             //round to 2 decimal places
             parseFloat(userCash).toFixed(2)
+          }{" "}
+          in Cash
+        </h3>
+        <h3>
+          Your Total Portfolio Value is $
+          {
+            //round to 2 decimal places
+            parseFloat(totalPortfolioValue).toFixed(2)
           }
         </h3>
         <p>League ID - {leagueID}</p>
@@ -245,7 +260,7 @@ function League() {
               <br />
               <div>
                 <h4>
-                  Profit:{" "}
+                  Profit All Time:{" "}
                   <b>
                     $
                     {stockPortfolio.profit.toString().includes(".")

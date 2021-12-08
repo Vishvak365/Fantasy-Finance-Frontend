@@ -180,7 +180,7 @@ function LeagueTrade(props) {
               <br />
               <div>
                 <h4>
-                  Profit:{" "}
+                  Profit All Time:{" "}
                   <b>
                     $
                     {stockPortfolio.profit.toString().includes(".")
