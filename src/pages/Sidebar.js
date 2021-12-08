@@ -42,7 +42,11 @@ export default function Sidebar(props) {
     >
       <img
         alt="logo"
+        onClick={() => {
+          history.push("/");
+        }}
         style={{
+          cursor: "pointer",
           width: "100%",
           marginTop: "10%",
           textAlign: "center",
