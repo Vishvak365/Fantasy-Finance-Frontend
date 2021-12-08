@@ -46,14 +46,17 @@ function App() {
                     height: 50,
                     marginBottom: 10,
                     display: "flex",
+                    justifyContent: "right",
                   }}
                 >
                   <img
-                    style={{ height: "70%", marginLeft: "72%" }}
+                    style={{ height: "70%" }}
                     src={firebase.auth().currentUser.photoURL}
                     alt="User Profile"
                   />
-                  <div style={{ color: "white", marginLeft: 10 }}>
+                  <div
+                    style={{ color: "white", marginLeft: 10, marginRight: 20 }}
+                  >
                     Hey <b>{firebase.auth().currentUser.displayName}</b>
                   </div>
                 </div>
